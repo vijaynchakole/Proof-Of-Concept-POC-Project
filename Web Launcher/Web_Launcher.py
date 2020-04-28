@@ -20,9 +20,9 @@ from sys import *
 
 
 
-os.chdir("C:\\Users\\hp\\Desktop\\practicals_ml\\proof of concept (POC) project\\Web Launcher\\")
+# os.chdir("C:\\Users\\hp\\Desktop\\practicals_ml\\proof of concept (POC) project\\Web Launcher\\")
 
-current_dir = os.getcwd()
+# current_dir = os.getcwd()
 
 def is_connected():
     
@@ -57,7 +57,7 @@ def main():
     if connect :
         try:
             #print(argv[1])
-            #print("inside try block")
+            
             WebLauncher(argv[1])
             #WebLauncher("Website_names.txt")
         except Exception as E:
