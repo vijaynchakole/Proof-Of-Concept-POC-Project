@@ -51,6 +51,8 @@ code Explanation :
 
 
 3). Function Name : main()
+    
+  input : -
   
   working : calling above mentioned functions
   
