@@ -13,8 +13,6 @@ content headers of wikipedia page using Beautiful Soup.
 
 import requests
 import bs4
-import wget
-import os
 
 # create data structure
 link_ls = []
