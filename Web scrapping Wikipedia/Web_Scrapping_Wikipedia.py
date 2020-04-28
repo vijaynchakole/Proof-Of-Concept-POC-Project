@@ -4,7 +4,7 @@ Created on Tue Apr 28 17:20:33 2020
 
 @author: Vijay Narsing Chakole 
 
-Topic : Wikipedia Web scrapping 
+Topic : Wikipedia Web scraping 
 
 Automation script which fetch URL, title and
 content headers of wikipedia page using Beautiful Soup.
