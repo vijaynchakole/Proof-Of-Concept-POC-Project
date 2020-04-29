@@ -7,7 +7,7 @@ Created on Wed Feb 19 06:28:10 2020
 Topic : Process Monitor 
 
 Automation script which accepts time interval from user and create log file in that
-Marvellous directory which contains information of all running processes.
+Log Monitoring folder directory which contains information of all running processes.
 After creating the log file send that log file through mail.
     
     
