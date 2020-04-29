@@ -1,23 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Titanic Survival dataset 
+@author : Vijay Narsing Chakole
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[176]:
-
-
+ # Titanic Survival dataset 
 
 # import libraries
 # For data loading and manipulation
@@ -63,15 +49,7 @@ from sklearn.metrics import plot_roc_curve
 from joblib import dump, load
 import pickle
 
-
-# In[177]:
-
-
 dataset = pd.read_csv('TitanicDataset.csv')
-
-
-# In[178]:
-
 
 dataset.head()
 len(dataset)
@@ -85,113 +63,44 @@ dataset.info()
 dataset.describe()
 dataset.tail()
 
-
-# In[179]:
-
-
 dataset.head()
-
-
-# In[180]:
-
-
 dataset.columns
-
-
-# In[181]:
-
-
 len(dataset)
-
-
-# In[182]:
-
-
 type(dataset)
-
-
-# In[183]:
-
 
 dataset.index
 
-
-# In[184]:
-
-
 dataset.dtypes
-
-
-# In[185]:
-
 
 dataset.info()
 
-
-# In[186]:
-
-
 dataset.shape
-
-
-# In[187]:
-
 
 # count the number of NaN values in each column
 dataset.isnull().sum()
-
-
-# In[188]:
-
 
 #dataset.head(20)
 # drop na values (delete rows)
 dataset.dropna(inplace = True, axis = 0) 
 
-
-# In[189]:
-
-
-
 dataset.isnull().sum() 
 
-
-# In[ ]:
-
-
+dataset = dataset.drop(['PassengerId', 'Name', 'SibSp', 'Parch','Ticket',
+   'Cabin'], axis = 1)
 
 
-
-# In[190]:
-
+dataset = pd.get_dummies(dataset,drop_first=True)
+print(dataset)
 
 # creating X and y
 X = dataset.drop('Survived', axis = 1)
 y = dataset.Survived
 
-
-# In[191]:
-
-
 type(X)
-
-
-# In[192]:
-
 
 type(y)
 
-
-# In[193]:
-
-
-
 y.value_counts()
-
-
-# In[194]:
-
-
 
 # Create the plot
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -211,87 +120,39 @@ ax.legend(*scatter.legend_elements(), title="Target")
 ax.axhline(dataset["Fare"].mean(),
            linestyle="--");
 
-
-# In[195]:
-
-
 # spliting dataset into training and testing data set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 42)
-
-
-# In[196]:
-
 
 # dropping na values
 X_train.isnull().sum()
 
-
-# In[197]:
-
-
 # View different shape of training and testing set
 X_train.shape, X_test.shape, y_train.shape, y_test.shape
-
-
-# In[198]:
-
 
 # Building Model
 from sklearn.ensemble import RandomForestClassifier
 
-
-# In[199]:
-
-
 # Instantiate an instance of RandomForestClassifier as classifier
 classifier_rf = RandomForestClassifier()
-
-
-# In[200]:
-
 
 # We'll leave the hyperparameters as default to begin with...
 classifier_rf.get_params()
 
-
-# In[201]:
-
-
 # fitting the model
 classifier_rf.fit(X_train, y_train)
 
-
-# In[202]:
-
-
 X_train.shape
-
-
-# In[203]:
-
 
 # Use the fitted model to make predictions on the test data and
 # save the predictions to a variable called y_pred
 
 y_pred = classifier_rf.predict(X_test)
 
-
-# In[204]:
-
-
 # Evaluate the fitted model on the training set using score() function
 classifier_rf.score(X_train, y_train)
 
-
-# In[205]:
-
-
 # Evaluate the fitted model on the testing set using score()
 classifier_rf.score(X_test,y_test)
-
-
-# In[206]:
-
 
 # hyperparameter tuning for RandomForestClassifier
 # n_estimations : means number of decision tree
@@ -301,34 +162,9 @@ for i in range(10,100,10):
     model = RandomForestClassifier(n_estimators = i, random_state = 42).fit(X_train, y_train)
     print(f"model accuracy on test set : {model.score(X_test, y_test):.2f}")
    # print(f"cross-validation score : {np.mean(cross_val_score(model, X, y, cv = 5)) * 100:.2f}")
-    print("")
     
-    
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
 
 # # Experimenting with differnt classification Algorithms
-
-# In[207]:
-
-
 from sklearn.svm import LinearSVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
@@ -339,16 +175,8 @@ models = {"LinearSVC" : LinearSVC(),
          "LogisticRegression" : LogisticRegression(),
          "RandomForestClassifier" : RandomForestClassifier()}
 
-
-# In[208]:
-
-
 # created empty dictionary results to store the results
 results = {}
-
-
-# In[209]:
-
 
 # Loop through the models dictionary items, 
 ## fitting the model on the training data
@@ -363,21 +191,7 @@ for model_name, model in models.items():
     results[model_name] = ((model.score(X_test, y_test)) * 100)
     
 
-
-# In[210]:
-
-
 results
-
-
-# In[ ]:
-
-
-
-
-
-# In[211]:
-
 
 # make our results a little more Visual
 
@@ -391,15 +205,7 @@ results_df = pd.DataFrame(results.values(),
 
 results_df
 
-
-# In[212]:
-
-
 results_df.shape
-
-
-# In[217]:
-
 
 # create bar plot of the results dataframe using plot.bar
 
@@ -429,15 +235,8 @@ results_df.plot.bar()
 # 
 #     2) Randomly with RandomizedSearchCV.
 
-# In[218]:
-
-
 # Hyperparameter Tuning using GridSearchCV
 from sklearn.model_selection import GridSearchCV
-
-
-# In[219]:
-
 
 # let's take a look on parameters of RandomForestClassifier
 RandomForestClassifier().get_params()
@@ -448,11 +247,6 @@ RandomForestClassifier().get_params()
 #  only this thing (param_grid) will be change according to algorithms
 #  
 #  we have to define hyper parameter as per provided by specific algorithms
-# 
-# 
-
-# In[228]:
-
 
 # Define parameters to search over
 param_grid = {"n_estimators" : [i for i in range(10,100,10)]}
@@ -463,16 +257,8 @@ grid = GridSearchCV(estimator = RandomForestClassifier(random_state = 42),
                    param_grid = param_grid,
                    cv = 5)
 
-
-# In[229]:
-
-
 # fit grid to data
 grid.fit(X, y)
-
-
-# In[230]:
-
 
 # find the best parameters
 grid.best_params_
@@ -480,51 +266,29 @@ grid.best_params_
 
 # we get the best result when we create 10 decision trees in RandomForestClassifier Algorithm.
 
-# In[233]:
-
-
 # set  the model to the best estimator
 classifier = grid.best_estimator_
 
-
-# In[234]:
-
-
 classifier
-
-
-# In[235]:
-
 
 # fit the best model
 classifier.fit(X_train, y_train)
 classifier.score(X_train, y_train)
 
-
-# In[236]:
-
-
 # Find best model score using test set
 classifier.score(X_test, y_test)
-
 
 # we are successfully improved 1% accuracy by tuning hyper-parameters 
 # 
 # RandomForestClassifier Accuracy before tuning : 87 %
 # 
 # RandomForestClassifier Accuracy After tuning : 88 %
-#     
 
-# # hyperparameter tuning using RandomizedSearchCV
-
-# In[237]:
-
+# hyperparameter tuning using RandomizedSearchCV
 
 # different LogisticRegression hyperprarameters
 log_reg_grid = {"C" : np.logspace(-4, 4, 20),
                "solver" : ["liblinear"]}
-
-
 
 from sklearn.model_selection import RandomizedSearchCV
 # Setup an instance of RandomizedSearchCV 
@@ -538,50 +302,26 @@ rs_log_reg = RandomizedSearchCV(estimator = LogisticRegression(),
                                 n_iter = 5,
                                 verbose = 1)
 
-
-# In[245]:
-
-
 # Fit the instance of RandomizedSearchCV
 rs_log_reg.fit(X_train, y_train)
 
-
-# In[246]:
-
-
 # finding the best parameters of RandomizedSeachCV using instance the best_params_
-
 rs_log_reg.best_params_
-
-
-# In[247]:
-
 
 # Score the instance of RandomizedSearchCV using the test data
 rs_log_reg.score(X_test, y_test)
-
-
-# In[248]:
-
 
 # Instantiate a LogisticRegression classifier using  
 # the best hyperparameters from RandomizedSearchCV
 
 classifier_log_reg = LogisticRegression(solver = "liblinear", C = 206.913808111479)
 
-
-# In[249]:
-
-
 # Fit the new instance of LogisticRegression with 
 # the best hyperparameters on the training data 
 classifier_log_reg.fit(X_train, y_train)
 
 
-# # Model Evaluation
-
-# In[250]:
-
+# Model Evaluation
 
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import precision_score, recall_score, f1_score
@@ -589,15 +329,8 @@ from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.metrics import roc_curve
 from sklearn.metrics import plot_roc_curve
 
-
-# In[251]:
-
-
 # make predictions on test data and save them
 y_pred = classifier_log_reg.predict(X_test)
-
-
-# In[252]:
 
 
 # return probrabilities rather than labels
@@ -772,8 +505,6 @@ plot_roc_curve_fun(fpr, tpr)
 roc_auc_score(y_test, y_test) # 1.0 : In reality, a perfect ROC curve is unlikely.
 
 
-# ***************************************************************************
-
 # # cross-validation
 # We can calculate various evaluation metrics using cross-validation
 # 
@@ -879,10 +610,6 @@ def evaluate_preds(y_true, y_preds):
 
     return metric_dict
 
-
-# In[277]:
-
-
 # creating baseline matrics
 # Make predictions
 # random forest with trees 10
@@ -891,17 +618,8 @@ y_pred = classifier.predict(X_test)
 
 baseline_metrics = evaluate_preds(y_test, y_pred)
 baseline_metrics
-#*************************************************************************
-
-
-# In[278]:
-
 
 classifier
-
-
-# In[279]:
-
 
 # Create a second classifier
 # RandomForest with trees 100
@@ -956,28 +674,6 @@ y_pred_svc = svc.predict(X_test)
 svc_metrics = evaluate_preds(y_test, y_pred_svc)
 svc_metrics
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[285]:
-
-
 compare_metrics = pd.DataFrame({"baseline" : baseline_metrics,
                                 "rf_t100" : clf_2_metrics,
                                 "Logistic_reg" : logistic_metrics,
@@ -1025,16 +721,5 @@ dump(classifier, 'trained-classifier.joblib')
 # Save it to a different variable name to the origial trained model
 loaded_clf = load("trained-classifier.joblib")
 
-
-# In[288]:
-
-
 # Evaluate the loaded trained model on the test data
 loaded_clf.score(X_test, y_test)
-
-
-# In[ ]:
-
-
-
-
