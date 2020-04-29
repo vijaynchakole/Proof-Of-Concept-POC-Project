@@ -76,6 +76,6 @@ working : display duplicate files
 
 working : calling above mentioned function
 
-Note : entry point point
+Note : entry point function
 
 
