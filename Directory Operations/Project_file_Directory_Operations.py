@@ -21,8 +21,6 @@ Write a slash ( / ) after every directory name (last one is optional)
 An absolute path is defined as specifying the location of a file or directory from the root directory(/).
 In other words,we can say that an absolute path is a complete path from start of actual file system from / directory.
 
-
-*******************************************************************************
 Relative path
 
 Relative path is defined as the path related to the present working directly(pwd).
@@ -30,6 +28,15 @@ It starts at your current directory and never starts with a / .
  
 
 Topic :
+
+1). Directory Watcher
+
+2). Directory File CheckSum
+
+3). Directory Duplicate File Detector
+
+4). Directory duplicate File Removal
+
     
 
  
@@ -73,7 +80,6 @@ def DirectoryWatcher(path):
         print("Directory Not Found ")
 
 
-###########################################################################
 # calculate checkSum of  given file
 def hashfile(file_path, blocksize = 1024):
     afile = open(file_path, 'rb')
@@ -86,16 +92,13 @@ def hashfile(file_path, blocksize = 1024):
     afile.close()
     return hasher.hexdigest()
 
-#########################################################################
 
 # display CheckSum of file
 def DisplayChecksum(path):
     flag = os.path.isabs(path)
     
     if flag == False :
-        path = os.path.abspath(path)
-    
-    
+        path = os.path.abspath(path)    
     exists = os.path.isdir(path)
     
     if exists:
@@ -110,21 +113,15 @@ def DisplayChecksum(path):
     else:
         print("Invalid Path")
 
-##########################################################################################
 
 # Find duplicate file in given directory
-
 def FindDuplicate(path):
     flag = os.path.isabs(path)
-    
     if flag == False :
         path = os.path.abspath(path)
         
-    
     exists = os.path.isdir(path)
-    
     duplicate = {}
-    
     if exists: 
         for folder, subfolder, filenames in os.walk(path):
             for file in filenames :
@@ -139,10 +136,7 @@ def FindDuplicate(path):
         print("invalid path")
         
 
-###########################################################
-
 # print duplicate file names
-
 def PrintDuplicate(dict1):
     results = list(filter(lambda x : len(x)>1, dict1.values()))
     type(results) #list of list containing duplicate file names if found duplicate
@@ -162,19 +156,13 @@ def PrintDuplicate(dict1):
                     
     else:
         print("NO duplicate file Found")
-        
-
-##########################################################
 
 
 def DeleteFiles(dict1):
     results = list(filter(lambda x : len(x)>1, dict1.values()))
-    
     icnt = 0
-    
     if len(results) > 0 :
         print("duplicate file found")
-        
         for result in results:
             for subresult in result :
                 icnt = icnt + 1
@@ -186,14 +174,11 @@ def DeleteFiles(dict1):
         print("Duplicate file not found")
 
 
-###############################################################
-
 def PrintResults(dict1):
     results = list(filter(lambda x: len(x)>1 , dict1))
     
     if len(results)>0:
-        print("duplicate file found")
-        
+        print("duplicate file found")        
         print("followings are duplicate files")
         
         for result in results :
@@ -201,12 +186,8 @@ def PrintResults(dict1):
                # print(subresult)
                 print("\t\t%s"%subresult)
                # print("\t\t%s" % subresult)
-    
-        
     else:
         print("No Duplicate file found")
-
-
 
 
 def main():
