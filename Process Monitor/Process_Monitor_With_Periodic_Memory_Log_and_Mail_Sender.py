@@ -75,7 +75,7 @@ def MailSender(filename, time):
         
         s = smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
-        s.login(fromaddr, "BigRevenge@2020")
+        s.login(fromaddr, "password_required")
         text = msg.as_string()
         s.sendmail(fromaddr, toaddr, text)
         s.quit()
@@ -121,8 +121,6 @@ def ProcessLog(log_dir = "Log Monitoring folder"):
         fd.write("%s\n"%elements)
 
     print("Log file successfully generated at location %s"%(log_path))
-    
-    os.chdir(current_dir)
     
     connected = is_connected()
 
