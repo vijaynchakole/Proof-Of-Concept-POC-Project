@@ -1,6 +1,6 @@
 ### Project Name : Directory Operation 
 
- display all files , find checkSum, display duplicate files, remove duplicate files
+Automation script which display all files , find checkSum of files, display duplicate files, remove duplicate files
 
 1). Directory Watcher
 
