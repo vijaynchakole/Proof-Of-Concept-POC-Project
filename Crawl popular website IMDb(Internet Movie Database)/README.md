@@ -1,4 +1,4 @@
-## Project - Crawl popular websites and create a database of Indian movie celebrities containing their images and personality traits.
+### Project - Crawl popular websites IMDb (Internet Movie Database) and create a database of Indian movie celebrities containing their images and personality traits.
 
 plan of attack :
 
@@ -32,33 +32,33 @@ By the same way I have extracting top 100 indian celebraties information from IM
 
 Code Explaination :
 
-file Name : indian_celebraties_info.py
+file Name : **indian_celebraties_info.py**
 
 # required libraries :
 
-os : for file system related operation
+**os** : for file system related operation
 
-urllib : for opening website url
+**urllib** : for opening website url
 
-bs4 : for extracting data from html page
+**bs4** : for extracting data from html page
 
-wget : for downloading images
+**wget** : for downloading images
 
-mysql : for creating database in mysql workBench and inserting data into it.
+**mysql** : for creating database in mysql workBench and inserting data into it.
 
 ****************************************************************************************************************************************
 
 # data structure
 
-image_ls : it is list which contains celebraties image url
+**image_ls** : it is list which contains celebraties image url
 
-name_ls : it is list which contains celebraties names
+**name_ls** : it is list which contains celebraties names
 
-movie_name : it is list which contains best movie name 
+**movie_name** : it is list which contains best movie name 
 
-profession : it is list which contains celebraties's profession
+**profession** : it is list which contains celebraties's profession
 
-paragraph_ls : it is list which contains personal information of celebraties
+**paragraph_ls** : it is list which contains personal information of celebraties
 
 
 ****************************************************************************************************************************************
@@ -66,7 +66,7 @@ paragraph_ls : it is list which contains personal information of celebraties
 
 # function Name  and their working
 1)
-Function Name : get_information()
+Function Name : *get_information()*
 
 input : website url
 
@@ -75,14 +75,14 @@ then with the help of BeautifulSoup from bs4 library we have read data and extra
 extracted information is : celebraties's name , their movie name, their profession , image url, personal info.
 
 2) 
-Function Name : partition()
+Function Name : *partition()*
 
 input : text data
 
 working : it takes text data and separate out profession and movie name in separate list.
 
 3)
-Function Name : download_images()
+Function Name : *download_images()*
 
 input :image url list
 
@@ -90,7 +90,7 @@ working : it downloads images from provided url with the help of wget library
 
 4)
 
-Function Name : create_folder()
+Function Name : *create_folder()*
 
 input :image folder name
 
@@ -100,7 +100,7 @@ output : folder name
 
 
 5)
-Function Name : remove_img()
+Function Name : *remove_img()*
 
 input :image folder name
 
@@ -110,7 +110,7 @@ Note: if we want to delete downlaoded images  then only use this function.
 
 
 6)
-Function Name : create_database_connection()
+Function Name : *create_database_connection()*
 
 input : -
 
@@ -120,14 +120,14 @@ output : returns connection variable (conn)
 
 
 7)
-Function Name : InsertVariablesIntoTable()
+Function Name : *InsertVariablesIntoTable()*
 
 input : celebratiy name , gender, profession, movie, image, details
 
 working : it insert data into celebraty_information table in indian_celebraties database.
 
 8)
-Function Name : main()
+Function Name : *main()*
 
 working : calling all above mentioned functions 
 
