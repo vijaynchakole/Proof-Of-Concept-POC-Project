@@ -1,4 +1,4 @@
-### Project - Crawl popular websites IMDb (Internet Movie Database) and create a database of Indian movie celebrities containing their images and personality traits.
+### Project - Crawl popular website IMDb (Internet Movie Database) and create a database of Indian movie celebrities containing their images and personality traits.
 
 **plan of attack** :
 
