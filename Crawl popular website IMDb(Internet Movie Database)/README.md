@@ -30,11 +30,11 @@ By the same way I have extracting top 100 indian celebraties information from IM
 
 ****************************************************************************************************************************************
 
-Code Explaination :
+###Code Explaination :
 
 file Name : **indian_celebraties_info.py**
 
-# required libraries :
+## Dependencies :
 
 **os** : for file system related operation
 
@@ -48,7 +48,7 @@ file Name : **indian_celebraties_info.py**
 
 ****************************************************************************************************************************************
 
-# data structure
+## data structure
 
 **image_ls** : it is list which contains celebraties image url
 
@@ -62,10 +62,10 @@ file Name : **indian_celebraties_info.py**
 
 
 ****************************************************************************************************************************************
-# functional approach
+## functional approach
 
-# function Name  and their working
-1)
+## function Name  and their working
+1).
 **Function Name** : *get_information()*
 
 input : website url
@@ -74,21 +74,21 @@ working : it takes url and open webpage with the help of urlopen library. once u
 then with the help of BeautifulSoup from bs4 library we have read data and extract important information from raw html page.
 extracted information is : celebraties's name , their movie name, their profession , image url, personal info.
 
-2) 
+2). 
 **Function Name** : *partition()*
 
 input : text data
 
 working : it takes text data and separate out profession and movie name in separate list.
 
-3)
+3).
 **Function Name** : *download_images()*
 
 input :image url list
 
 working : it downloads images from provided url with the help of wget library
 
-4)
+4).
 
 **Function Name** : *create_folder()*
 
@@ -99,7 +99,7 @@ working : it creates new folder if it is not exists in current working directory
 output : folder name
 
 
-5)
+5).
 **Function Name** : *remove_img()*
 
 input :image folder name
@@ -109,7 +109,7 @@ working : it delete images from provided image folder.
 Note: if we want to delete downlaoded images  then only use this function.
 
 
-6)
+6).
 **Function Name** : *create_database_connection()*
 
 input : -
@@ -119,14 +119,14 @@ working : it creates database connection with the help of mysql library.
 output : returns connection variable (conn)
 
 
-7)
+7).
 **Function Name** : *InsertVariablesIntoTable()*
 
 input : celebratiy name , gender, profession, movie, image, details
 
 working : it insert data into celebraty_information table in indian_celebraties database.
 
-8)
+8).
 **Function Name** : *main()*
 
 working : calling all above mentioned functions 
