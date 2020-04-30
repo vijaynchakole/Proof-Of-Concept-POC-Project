@@ -1,4 +1,4 @@
-##Project - Crawl popular websites and create a database of Indian movie celebrities containing their images and personality traits.
+## Project - Crawl popular websites and create a database of Indian movie celebrities containing their images and personality traits.
 
 plan of attack :
 
