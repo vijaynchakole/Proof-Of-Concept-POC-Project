@@ -62,9 +62,9 @@ file Name : **indian_celebraties_info.py**
 
 
 ****************************************************************************************************************************************
-## functional approach
+## Functional approach
 
-## function Name  and their working
+## Function Name  and their working
 1).
 **Function Name** : *get_information()*
 
