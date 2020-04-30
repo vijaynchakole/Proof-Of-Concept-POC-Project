@@ -1,6 +1,6 @@
 ### Project - Crawl popular websites IMDb (Internet Movie Database) and create a database of Indian movie celebrities containing their images and personality traits.
 
-plan of attack :
+**plan of attack** :
 
 I have selected website https://www.imdb.com/list/ls002913270/ for web scrapping. 
 IMDB website provides top 100 indian celebraties list with their best movie work, images and some personal information.
@@ -66,7 +66,7 @@ file Name : **indian_celebraties_info.py**
 
 # function Name  and their working
 1)
-Function Name : *get_information()*
+**Function Name** : *get_information()*
 
 input : website url
 
@@ -75,14 +75,14 @@ then with the help of BeautifulSoup from bs4 library we have read data and extra
 extracted information is : celebraties's name , their movie name, their profession , image url, personal info.
 
 2) 
-Function Name : *partition()*
+**Function Name** : *partition()*
 
 input : text data
 
 working : it takes text data and separate out profession and movie name in separate list.
 
 3)
-Function Name : *download_images()*
+**Function Name** : *download_images()*
 
 input :image url list
 
@@ -90,7 +90,7 @@ working : it downloads images from provided url with the help of wget library
 
 4)
 
-Function Name : *create_folder()*
+**Function Name** : *create_folder()*
 
 input :image folder name
 
@@ -100,7 +100,7 @@ output : folder name
 
 
 5)
-Function Name : *remove_img()*
+**Function Name** : *remove_img()*
 
 input :image folder name
 
@@ -110,7 +110,7 @@ Note: if we want to delete downlaoded images  then only use this function.
 
 
 6)
-Function Name : *create_database_connection()*
+**Function Name** : *create_database_connection()*
 
 input : -
 
@@ -120,14 +120,14 @@ output : returns connection variable (conn)
 
 
 7)
-Function Name : *InsertVariablesIntoTable()*
+**Function Name** : *InsertVariablesIntoTable()*
 
 input : celebratiy name , gender, profession, movie, image, details
 
 working : it insert data into celebraty_information table in indian_celebraties database.
 
 8)
-Function Name : *main()*
+**Function Name** : *main()*
 
 working : calling all above mentioned functions 
 
