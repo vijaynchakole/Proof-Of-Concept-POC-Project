@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://nanonets.com/blog/ocr-with-tesseract/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>[Tutorial] OCR in Python with Tesseract, OpenCV and Pytesseract</title>
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://nanonets.com/blog/assets/css/normalize.css?v=c42cdb4fc3">
+		<link rel="stylesheet" type="text/css" href="https://nanonets.com/blog/assets/css/screen.css?v=c42cdb4fc3">
+		<meta name="description" content="A comprehensive tutorial on getting started with Tesseract and OpenCV for OCR in Python: preprocessing, deep learning OCR, text extraction and limitations.">
+    <link rel="shortcut icon" href="https://nanonets.com/blog/favicon.png" type="image/png">
+    <link rel="canonical" href="https://nanonets.com/blog/ocr-with-tesseract/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://nanonets.com/blog/ocr-with-tesseract/amp/">
+    
+    <meta property="og:site_name" content="AI &amp; Machine Learning Blog">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="[Tutorial] OCR in Python with Tesseract, OpenCV and Pytesseract">
+    <meta property="og:description" content="A comprehensive tutorial for getting started with Tesseract and OpenCV for OCR in Python: preprocessing, deep learning OCR, text extraction and limitations.">
+    <meta property="og:url" content="https://nanonets.com/blog/ocr-with-tesseract/">
+    <meta property="og:image" content="https://nanonets.com/blog/content/images/2019/12/Tesseract.gif">
+    <meta property="article:published_time" content="2019-12-05T07:28:33.000Z">
+    <meta property="article:modified_time" content="2020-04-24T19:04:23.000Z">
+    <meta property="article:tag" content="OCR">
+    <meta property="article:tag" content="tesseract">
+    <meta property="article:tag" content="OpenCV">
+    <meta property="article:tag" content="pytesseract">
+    <meta property="article:tag" content="optical character recognition">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/nanonets">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[Tutorial] OCR in Python with Tesseract, OpenCV and Pytesseract">
+    <meta name="twitter:description" content="A comprehensive tutorial for getting started with Tesseract and OpenCV for OCR in Python: preprocessing, deep learning OCR, text extraction and limitations.">
+    <meta name="twitter:url" content="https://nanonets.com/blog/ocr-with-tesseract/">
+    <meta name="twitter:image" content="https://nanonets.com/blog/content/images/2019/12/Tesseract.gif">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Filip Zelic">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="OCR, tesseract, OpenCV, pytesseract, optical character recognition">
+    <meta name="twitter:site" content="@nanonets_">
+    <meta property="og:image:width" content="1366">
+    <meta property="og:image:height" content="768">
+    
+    <script async="" src="https://amplify.outbrain.com/cp/obtp.js" type="text/javascript"></script><script src="https://connect.facebook.net/signals/config/297732744467236?v=2.9.18&amp;r=stable" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" async="" src="https://www.googleadservices.com/pagead/conversion_async.js"></script><script type="text/javascript" async="" src="https://static.ads-twitter.com/uwt.js"></script><script type="text/javascript" async="" src="https://snap.licdn.com/li.lms-analytics/insight.min.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://cdn.heapanalytics.com/js/heap-3038863179.js"></script><script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WQBDPF3"></script><script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "AI &amp; Machine Learning Blog",
+        "url": "https://nanonets.com/blog/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://nanonets.com/blog/content/images/2018/11/Nanonets-Logo-Graphic---546FFF@33.33x-1.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Filip Zelic",
+        "url": "https://nanonets.com/blog/author/filip/",
+        "sameAs": []
+    },
+    "headline": "[Tutorial] OCR in Python with Tesseract, OpenCV and Pytesseract",
+    "url": "https://nanonets.com/blog/ocr-with-tesseract/",
+    "datePublished": "2019-12-05T07:28:33.000Z",
+    "dateModified": "2020-04-24T19:04:23.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://nanonets.com/blog/content/images/2019/12/Tesseract.gif",
+        "width": 1366,
+        "height": 768
+    },
+    "keywords": "OCR, tesseract, OpenCV, pytesseract, optical character recognition",
+    "description": "A comprehensive tutorial for getting started with Tesseract and OpenCV for OCR in Python: preprocessing, deep learning OCR, text extraction and limitations. ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://nanonets.com/blog/"
+    }
+}
+    </script>
+
+    <script defer="" src="https://nanonets.com/blog/public/members.min.js?v=c42cdb4fc3"></script>
+    <meta name="generator" content="Ghost 3.15">
+    <link rel="alternate" type="application/rss+xml" title="AI &amp; Machine Learning Blog" href="https://nanonets.com/blog/rss/">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css" rel="stylesheet">
+<style>
+.btn2 {
+    max-width: 100%;
+    min-height: 48px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    background-color: rgb(84, 111, 255);
+    transition: all 0.5s ease 0s;
+    outline: 0px;
+    border-radius: 4px;
+    border-width: 2px solid rgb(84, 111, 255);
+}
+.anchor2 {
+	border: none !important;
+}
+.nav-wrap {
+    font-weight: 400;
+}
+.anchor2:hover {
+	border: none !important;
+}
+.header-logo {
+    flex: 0 1 200px;
+}
+.header-nav {
+    flex: 1;
+}
+.dropdown-menu {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	z-index: 5;
+	min-width: 160px;
+	margin-top: -1px;
+	margin-left: -20px;
+	padding: 0;
+	list-style: none;
+	text-align: left;
+	background-color: #fff;
+	border: 0;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px 0 rgba(200, 205, 225, 0.8);
+	transition: max-height .15s ease-out, opacity .15s ease-out;
+	overflow: hidden;
+	max-height: 0;
+	opacity: 0;
+    white-space: nowrap;
+}
+.dropdown-menu::before, .dropdown-menu::after {
+	content: '';
+	height: 10px;
+	display: block;
+}
+.open > .dropdown-menu {
+	max-height: 500px;
+	opacity: 1;
+	transition: max-height .25s ease-in, opacity .25s ease-in;
+}
+.dropdown-menu li {
+    margin: 0;    
+}
+.dropdown-menu>li>a {
+	padding-left: 20px;
+	padding-right: 20px;
+    padding: 10px 20px;
+    display: block;
+}
+
+@media (max-width: 479px) {
+    .footer-wrap2 {
+        width: calc(100% - 30px);
+        margin: 0 auto;
+    }
+}
+.footer-menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.footer-menu li {
+    display: inline;
+    padding-left: 10px;
+}
+.footer-menu li:before {
+    display: inline-block;
+    content: "·";
+    padding-right: 12px;
+}
+.footer-menu li:first-child:before {
+    display: none;
+}
+.footer-bottom {
+    background: #283645;
+	color: #707E8C;
+}
+.footer-bottom .container.inner {
+    padding-top: 30px;
+	padding-bottom: 30px;
+}
+.footer-bottom p,
+.footer-bottom a {
+	color: #707E8C;
+}
+.footer-bottom p {
+    padding: 0;
+    margin: 0;
+}
+.footer-lists {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+.footer-list {
+  list-style: none;
+  flex: 0 1 210px;
+  padding: 24px;
+    box-sizing: border-box;
+}
+.footer-list li {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.footer-list li a:hover {
+  color: #546fff;
+}
+.footer-list .list-header {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.social-icons .s-icon {
+    width: 24px;
+    height: 24px;
+    margin: 0 10px 10px 0;
+    display: inline-block;
+}
+</style>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-88035784-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-88035784-6');
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-88035784-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-88035784-1');
+</script>
+
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WQBDPF3');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Segment -->
+<!-- <script>!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+analytics.load("IQSHkvgATEEuV6D503KryfIFzCPtq3xO");
+analytics.page();
+}}();</script> -->
+<!-- End Segment -->
+
+<script type="text/javascript">
+    window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+    heap.load("3038863179");
+</script>
+
+<!-- <script>
+
+  window.intercomSettings = {
+    app_id: "nwkp4rux"
+  };
+</script>
+
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/nwkp4rux';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>-->
+	<link type="text/css" href="https://cdn.commento.io/css/commento.css" rel="stylesheet"><style>._3vFA8--container{height:0;width:100%;position:relative;background:radial-gradient(44.6% 929.87% at 22.02% 63.39%,#ae6fff 0,#8d35fd 100%);cursor:pointer;overflow:hidden;transition:.8s}._3vFA8--container .AeJ0I--row{padding:11px;margin:0 auto;width:-webkit-max-content;width:-moz-max-content;width:max-content}._3vFA8--container .AeJ0I--row ._1yCun--logo{position:relative;width:51px;height:39px;float:left;margin-right:104px;background:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNy40MDQgOC43TDEuNDU0IDM2LjMyNWMtLjI1OC40NDctLjM4Ny42Ny0uNDUxLjgzOWEyLjIzNiAyLjIzNiAwIDAwMS43MzMgMy4wMDFjLjE3OC4wMy40MzYuMDMuOTUyLjAzLjEwNiAwIC4xNTggMCAuMjEtLjAwM2EyLjIzNyAyLjIzNyAwIDAwMS4yNTItLjQ1Mmw2Ljg1OS00LjcyMWMuNDczLS4zLjkwOC0uNjU0IDEuMjk2LTEuMDUyLjM1NC4wOC43MjcuMTg1IDEuMTQ1LjMwMSAxLjk1LjU0NCA0Ljg4MyAxLjM2IDExLjUxNiAxLjM2IDcuNjcyIDAgMTAuNjEtLjg3NCAxMi4xNTQtMS40NzEuMzguMzQzLjc5Ni42NDYgMS4yNDQuOTA0bDcuNDg4IDQuODE0Yy4zMjQuMjA4LjcwMi4zMiAxLjA4OC4zMiAxLjU1IDAgMi41MTgtMS42NzggMS43NDMtMy4wMkwzMy4yNDIgOC43Yy0yLjU3LTQuNDUyLTMuODU2LTYuNjc5LTUuNTI1LTcuNDQzYTUuNzUxIDUuNzUxIDAgMDAtNC43ODggMGMtMS42NjkuNzY0LTIuOTU0IDIuOTktNS41MjUgNy40NDN6bTguNTYyIDIyLjUyNGMtNC4yNDYgMC03LjU0OC0uNTk4LTkuOTI1LTEuNTM0bC4wMDEtLjAwMmMtLjU2MS0uMjQtMS40MjItLjc4My0xLjIyOC0xLjI5NS4xOTctLjUyIDEuNDQ0LS41MDcgMi4xOC0uMzRsNS4wNzYtOC43MiAzLjU1LTIuNTQ0LTIuMjUuMzEuMDE0LS4wMjMtMi40NTMuMjdjLS40NC4wNS0uNjU4LjA3My0uNzU0LjAwNGEuMzA0LjMwNCAwIDAxLS4xMjMtLjI3MmMuMDEtLjExNy4xNzItLjI2Ni40OTYtLjU2NCAxLjMwNS0xLjE5OCAzLjM3Mi0zLjA5IDMuNzQ3LTMuMzk4YTEuNDM4IDEuNDM4IDAgMDEyLjIwMy40NzhsNy4zMTcgMTMuNDc4Yy45MjItLjI0NCAyLjMwOC0uMzU2IDIuNDU1LjQ4OC4xMy43NDMtLjYwNyAxLjI1OS0yLjM2NyAyLjAyNC0xLjcyMy44LTQuNjY3IDEuNjQtNy45MzkgMS42NHoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=)}._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._1ErQY--star-1,._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._2JsUk--star-2,._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._181pR--star-3{position:absolute}._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._1ErQY--star-1{background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjU2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGZpbHRlcj0idXJsKCNmaWx0ZXIwX2QpIj48cGF0aCBkPSJNNTUuNjU1IDM3LjAyNWMuNDc0LTEuNjMgMi41ODYtMi4wNTUgMy42NTMtLjczNWwzLjU4NSA0LjQzNWMuNDE0LjUxMiAxLjA0My44IDEuNy43OGw1LjctLjE3OGMxLjY5OC0uMDUzIDIuNzU1IDEuODI0IDEuODI5IDMuMjQ4bC0zLjExIDQuNzhhMi4xMDIgMi4xMDIgMCAwMC0uMjE3IDEuODU4bDEuOTMxIDUuMzY2Yy41NzUgMS41OTgtLjg4NCAzLjE4My0yLjUyNCAyLjc0MmwtNS41MDctMS40ODFhMi4xMDIgMi4xMDIgMCAwMC0xLjgzNC4zNjlsLTQuNTA3IDMuNDk0Yy0xLjM0MiAxLjA0LTMuMy4xNDMtMy4zODctMS41NTNsLS4yOTQtNS42OTVhMi4xMDIgMi4xMDIgMCAwMC0uOTE3LTEuNjNsLTQuNzE3LTMuMjA3Yy0xLjQwNC0uOTU1LTEuMTU1LTMuMDk0LjQzLTMuNzAybDUuMzI3LTIuMDM4YTIuMTAyIDIuMTAyIDAgMDAxLjI2Ny0xLjM3N2wxLjU5Mi01LjQ3NnoiIGZpbGw9IiNGRkQ2MDAiLz48L2c+PGRlZnM+PGZpbHRlciBpZD0iZmlsdGVyMF9kIiB4PSIuMTI3IiB5PSItMTEuMDkiIHdpZHRoPSIxMTkuMzI3IiBoZWlnaHQ9IjExOC40NjIiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVGbG9vZCBmbG9vZC1vcGFjaXR5PSIwIiByZXN1bHQ9IkJhY2tncm91bmRJbWFnZUZpeCIvPjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIvPjxmZU9mZnNldC8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMjIiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMCAxIDAgMCAwIDAuNSAwIi8+PGZlQmxlbmQgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93Ii8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93IiByZXN1bHQ9InNoYXBlIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==");width:120px;height:56px;top:-12px;left:-103px;background-size:120px 56px}._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._2JsUk--star-2{background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE1IiBoZWlnaHQ9IjU2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGZpbHRlcj0idXJsKCNmaWx0ZXIwX2QpIj48cGF0aCBkPSJNNTguMzg4LTUuNjljLjg4NS0xLjAyNSAyLjU1Ny0uNjMzIDIuODkzLjY3OUw2Mi40MS0uNjA2Yy4xMy41MDguNDkuOTI2Ljk3NCAxLjEzbDQuMTkzIDEuNzYxYzEuMjQ4LjUyNCAxLjM5MiAyLjIzNi4yNDggMi45NjFsLTMuODQgMi40MzVjLS40NDQuMjgtLjczLjc1My0uNzc0IDEuMjc2bC0uMzggNC41MzFjLS4xMTMgMS4zNS0xLjY5NiAyLjAxNS0yLjc0IDEuMTUxbC0zLjUwMS0yLjlhMS42NzYgMS42NzYgMCAwMC0xLjQ1My0uMzQxbC00LjQyNyAxLjA0Yy0xLjMxOC4zMDktMi40NC0uOTkyLTEuOTQxLTIuMjVsMS42NzYtNC4yMjhhMS42NzYgMS42NzYgMCAwMC0uMTI0LTEuNDg3TDQ3Ljk2NC41ODRjLS43MDItMS4xNTguMTg5LTIuNjI3IDEuNTQtMi41NDFsNC41MzguMjg4YTEuNjc2IDEuNjc2IDAgMDAxLjM3Ni0uNTc4bDIuOTctMy40NDN6IiBmaWxsPSIjRkZENjAwIi8+PC9nPjxkZWZzPjxmaWx0ZXIgaWQ9ImZpbHRlcjBfZCIgeD0iLjk2MiIgeT0iLTUyLjY2OCIgd2lkdGg9IjExMy40NzciIGhlaWdodD0iMTEyLjgyMSIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiPjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0Lz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyMiIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAxIDAgMCAwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMC41IDAiLz48ZmVCbGVuZCBpbjI9IkJhY2tncm91bmRJbWFnZUZpeCIgcmVzdWx0PSJlZmZlY3QxX2Ryb3BTaGFkb3ciLz48ZmVCbGVuZCBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJlZmZlY3QxX2Ryb3BTaGFkb3ciIHJlc3VsdD0ic2hhcGUiLz48L2ZpbHRlcj48L2RlZnM+PC9zdmc+");width:114px;height:53px;left:9px;top:-12.63px;background-size:120px 62px}._3vFA8--container .AeJ0I--row ._1yCun--logo ._2GogZ--stars ._181pR--star-3{background:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAzIiBoZWlnaHQ9IjU2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGZpbHRlcj0idXJsKCNmaWx0ZXIwX2QpIj48cGF0aCBkPSJNNTEuODAyIDM2LjA5OGMxLjA5OS0xLjQ5MSAzLjQyLTEuMTMyIDQuMDE2LjYyMmwyLjAwMSA1Ljg4N2MuMjMxLjY4Ljc2NyAxLjIxMSAxLjQ0OCAxLjQzN2w1LjkgMS45NjFjMS43NTguNTg0IDIuMTMzIDIuOTAzLjY1IDQuMDExbC00Ljk4IDMuNzIzYTIuMjkyIDIuMjkyIDAgMDAtLjkyIDEuODIxbC0uMDQyIDYuMjE4Yy0uMDEyIDEuODUyLTIuMTAxIDIuOTI2LTMuNjE0IDEuODU4bC01LjA4LTMuNTg3YTIuMjkyIDIuMjkyIDAgMDAtMi4wMTYtLjMxMmwtNS45MjYgMS44ODJjLTEuNzY1LjU2LTMuNDMyLTEuMDk1LTIuODgzLTIuODY0bDEuODQtNS45MzlhMi4yOTIgMi4yOTIgMCAwMC0uMzI1LTIuMDE0bC0zLjYyMi01LjA1NWMtMS4wNzgtMS41MDUtLjAxOS0zLjYwMSAxLjgzMy0zLjYyNmw2LjIxOC0uMDg1YTIuMjkyIDIuMjkyIDAgMDAxLjgxNC0uOTMybDMuNjg4LTUuMDA2eiIgZmlsbD0iI0ZGRDYwMCIvPjwvZz48ZGVmcz48ZmlsdGVyIGlkPSJmaWx0ZXIwX2QiIHg9Ii43ODgiIHk9Ii0xLjUzNCIgd2lkdGg9IjEwMi4xMzUiIGhlaWdodD0iMTAxLjEyOSIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiPjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0Lz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIxNy4yNDYiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMCAxIDAgMCAwIDAuNSAwIi8+PGZlQmxlbmQgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93Ii8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93IiByZXN1bHQ9InNoYXBlIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==");width:114px;height:75px;left:34px;top:-12.63px;background-size:120px 57px}._3vFA8--container .AeJ0I--row ._2CXkc--title{float:left;width:-webkit-max-content;width:-moz-max-content;width:max-content;height:23px;font-family:Montserrat,sans-serif;font-style:normal;font-weight:400;font-size:18px;line-height:37px;color:#fff;text-shadow:0 0 16px #5600c5;margin-right:20px}._3vFA8--container .AeJ0I--row ._1CujY--btn{float:left;flex-direction:row;padding:6px 22px;width:111px;margin-top:-2px;height:38px;background:#ffd600;box-shadow:0 0 28px hsla(0,0%,100%,.5);border-radius:5px}._3vFA8--container .AeJ0I--row ._1CujY--btn ._2Wo2K--btnText{width:66px;height:14px;font-family:Montserrat,serif;font-style:normal;font-weight:600;font-size:11px;line-height:14px;text-align:center;letter-spacing:-.01em;color:#9645fd;align-self:center;margin:6px 0}</style><script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/831005123/?random=1589501788513&amp;cv=9&amp;fst=1589501788513&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;eid=376635470&amp;u_h=768&amp;u_w=1366&amp;u_ah=728&amp;u_aw=1366&amp;u_cd=24&amp;u_his=1&amp;u_tz=330&amp;u_java=false&amp;u_nplug=3&amp;u_nmime=4&amp;gtm=2wg561&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fnanonets.com%2Fblog%2Focr-with-tesseract%2F&amp;ref=https%3A%2F%2Fwww.google.com%2F&amp;tiba=%5BTutorial%5D%20OCR%20in%20Python%20with%20Tesseract%2C%20OpenCV%20and%20Pytesseract&amp;hn=www.googleadservices.com&amp;async=1&amp;rfmt=3&amp;fmt=4"></script><style id="lightense-images-css">
+.lightense-backdrop {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 998;
+  padding: 0;
+  margin: 0;
+  transition: opacity 300ms ease;
+  cursor: zoom-out;
+  opacity: 0;
+  background-color: rgb(255, 255, 255);
+  visibility: hidden;
+}
+
+@supports (-webkit-backdrop-filter: blur(30px)) {
+  .lightense-backdrop {
+    background-color: rgb(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+  }
+}
+
+.lightense-wrap {
+  position: relative;
+  transition: transform 300ms cubic-bezier(.2, 0, .1, 1);
+  z-index: 999;
+  pointer-events: none;
+}
+
+.lightense-target {
+  cursor: zoom-in;
+  transition: transform 300ms cubic-bezier(.2, 0, .1, 1);
+  pointer-events: auto;
+}
+
+.lightense-open {
+  cursor: zoom-out;
+}
+
+.lightense-transitioning {
+  pointer-events: none;
+}</style></head>
+	<body class="post-template tag-ocr tag-tesseract tag-opencv tag-pytesseract tag-optical-character-recognition">
+		<div class="global-wrap">
+			<div class="section-content-wrap">
+				<div class="section-header-container1">
+  <div class="section-header-container2">
+    <div class="section-header wrap">
+      <header class="header-wrap flex">
+        <div class="header-logo">
+          <h1 class="is-logo"><a href="https://nanonets.com/"><img src="https://nanonets.com/blog/content/images/2018/11/Nanonets-Logo-Graphic---546FFF@33.33x-1.png" alt="AI &amp; Machine Learning Blog" style="vertical-align: middle;"><span style="vertical-align: middle; font-size: 24px; padding-left: 4px;">Nanonets</span></a></h1>
+
+        </div>
+        <div class="header-nav">
+          <nav class="nav-wrap">
+            <label for="toggle" class="nav-label hamburger hamburger-minus">
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </label>
+            <input type="checkbox" id="toggle" class="nav-toggle">
+            <ul class="nav-list">
+	<li class="nav-list-item">
+		<a class="nav-link" href="https://nanonets.com/#demo">Products</a>
+	</li>
+	<li class="nav-list-item dropdown">
+		<a class="nav-link" data-toggle="dropdown">Solutions</a>
+		<ul class="dropdown-menu">
+			<li><a href="https://nanonets.com/content-moderation-api/">NSFW</a></li>
+			<li><a href="https://nanonets.com/drone/">Drones</a></li>
+			<li><a href="https://nanonets.com/ecommerce/">E-commerce</a></li>
+			<li><a href="https://nanonets.com/inspection/">Inspection</a></li>
+			<li><a href="https://nanonets.com/multi-label-classification/">Multi Label Classification</a></li>
+			<li><a href="https://nanonets.com/ocr-api/">OCR API</a></li>
+			<li><a href="https://nanonets.com/hygiene-safety-compliance/">Hygiene &amp; Safety Compliance</a></li>
+			<li><a href="https://nanonets.com/solution/insurance">Insurance</a></li>
+		</ul>
+	</li>
+	<li class="nav-list-item dropdown">
+		<a class="nav-link" data-toggle="dropdown">Ready To Use Models</a>
+		<ul class="dropdown-menu">
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/ic/test/353cea12-4dcc-47ee-b139-dd345157b17d">NSFW Classification</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/OD/test/6c6f8dc2-a7f4-4e1c-94a7-a75beea13cad">Fashion Apparel / Accessories Detection</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/OD/test/c4207fe4-3866-42b7-9b54-50f02730e10b">General Tagging</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/OD/test/4e8d57da-9f06-48fd-bd0a-3d798ab87ccc">Furniture Detection</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/OD/test/289b3e85-7256-440e-944b-8cfd8ecf0525">Face Detection</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/OD/test/2cfab12f-b14c-4220-be31-35a41c57c505">Pedestrian Detection in Aerial Images</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/IC/test/756de8ac-9f09-4fba-87b0-4f30e7e8f12f">Animals</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/IC/test/8b9abde0-6c9a-485e-8e89-afcbf581e4a5">Clothes</a></li>
+			<li><a target="_blank" rel="noopener noreferrer" href="https://app.nanonets.com/#/IC/test/831dfc73-87a6-4d79-ace1-2c1b94af4b69">Gender</a></li>
+		</ul>
+	</li>
+	<li class="nav-list-item">
+		<a class="nav-link" href="https://nanonets.com/#case-studies">Case studies</a>
+	</li>
+	<li class="nav-list-item dropdown">
+		<a class="nav-link" data-toggle="dropdown">Resources</a>
+		<ul class="dropdown-menu">
+			<li><a href="https://blog.nanonets.com/">Blog</a></li>
+			<li><a href="https://app.nanonets.com/documentation">Documentation</a></li>
+			<li><a href="https://nanonets.github.io/tutorials-page" target="_blank" title="Opens in a new window">Tutorials</a></li>
+			<li><a href="https://help.nanonets.com/">Help</a></li>
+		</ul>
+	</li>
+	<li class="nav-list-item">
+		<a class="nav-link" href="https://nanonets.com/blog/write-for-us/">Write For Us</a>
+	</li>
+	<li class="nav-list-item search-open"><span>Search</span><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.420346,15.5800244 L24,21.1596784 L21.1596784,24 L15.5800244,18.420346 C13.9925104,19.4717887 12.088789,20.0841064 10.0420532,20.0841064 C4.49598037,20.0841064 0,15.5881261 0,10.0420532 C0,4.49598037 4.49598037,0 10.0420532,0 C15.5881261,0 20.0841064,4.49598037 20.0841064,10.0420532 C20.0841064,12.088789 19.4717887,13.9925104 18.420346,15.5800244 Z M10.0420532,16.0672851 C13.3696969,16.0672851 16.0672851,13.3696969 16.0672851,10.0420532 C16.0672851,6.71440951 13.3696969,4.01682129 10.0420532,4.01682129 C6.71440951,4.01682129 4.01682129,6.71440951 4.01682129,10.0420532 C4.01682129,13.3696969 6.71440951,16.0672851 10.0420532,16.0672851 Z"></path></svg></li></ul>
+          </nav>
+        </div>
+      </header>
+    </div>
+  </div>
+</div>				<article>
+<div class="section-featured is-featured-image">
+	<div class="featured-image" style="background-image: url(https://nanonets.com/blog/content/images/2019/12/Tesseract.gif)"></div>
+	<div class="featured-wrap flex">
+		<div class="featured-content">
+			<div class="tags-wrap">
+				<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/ocr/">OCR</a>
+				<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/tesseract/">tesseract</a>
+				<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/opencv/">OpenCV</a>
+				<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/pytesseract/">pytesseract</a>
+				<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/optical-character-recognition/">optical character recognition</a>
+			</div>
+			<h1 class="white">A comprehensive guide to OCR with Tesseract, OpenCV and Python</h1>
+			<div class="item-meta white">
+				<span>by</span>
+				<a href="https://nanonets.com/blog/author/filip/">Filip Zelic</a> <span>&amp;</span> <a href="https://nanonets.com/blog/author/anuj/">Anuj Sable</a>
+				<time datetime="2019-12-04">5 months ago</time>
+				<span class="reading-time"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M10.1907692,24 C4.5625628,24 0,19.4374372 0,13.8092308 C0,8.18102433 4.5625628,3.61846154 10.1907692,3.61846154 C15.8189757,3.61846154 20.3815385,8.18102433 20.3815385,13.8092308 C20.3815385,19.4374372 15.8189757,24 10.1907692,24 Z M10.1907692,22 C14.7144062,22 18.3815385,18.3328677 18.3815385,13.8092308 C18.3815385,9.28559383 14.7144062,5.61846154 10.1907692,5.61846154 C5.6671323,5.61846154 2,9.28559383 2,13.8092308 C2,18.3328677 5.6671323,22 10.1907692,22 Z" id="Oval"></path><path d="M7.53230769,2.32923077 C6.98002294,2.32923077 6.53230769,1.88151552 6.53230769,1.32923077 C6.53230769,0.776946019 6.98002294,0.329230769 7.53230769,0.329230769 L12.9225711,0.329230769 C13.4748559,0.329230769 13.9225711,0.776946019 13.9225711,1.32923077 C13.9225711,1.88151552 13.4748559,2.32923077 12.9225711,2.32923077 L7.53230769,2.32923077 Z" id="Line-2"></path><path d="M13.2928932,9.29289322 C13.6834175,8.90236893 14.3165825,8.90236893 14.7071068,9.29289322 C15.0976311,9.68341751 15.0976311,10.3165825 14.7071068,10.7071068 L10.897876,14.5163376 C10.5073517,14.9068618 9.87418674,14.9068618 9.48366245,14.5163376 C9.09313816,14.1258133 9.09313816,13.4926483 9.48366245,13.102124 L13.2928932,9.29289322 Z" id="Line"></path></svg> 22 min read</span>
+				</div>
+			</div>
+		</div>
+	</div><div class="section-post wrap">
+	<div class="post-wrap ">
+		<!--kg-card-begin: markdown--><h2>Table of Contents</h2><nav role="navigation" class="table-of-contents"><ul><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#introduction">Introduction</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#opensourceocrtools">Open Source OCR Tools</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#tesseractocr">Tesseract OCR</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#technologyhowitworks">Technology - How it works</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#installingtesseract">Installing Tesseract</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#runningtesseractwithcli">Running Tesseract with CLI</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#ocrwithpytesseractandopencv">OCR with Pytesseract and OpenCV</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#preprocessingfortesseract">Preprocessing for Tesseract</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#gettingboxesaroundtext">Getting boxes around text</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#texttemplatematching">Text template matching</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#pagesegmentationmodes">Page segmentation modes</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#detectorientationandscript">Detect orientation and script</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#detectonlydigits">Detect only digits</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#whitelistingcharacters">Whitelisting characters</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#blacklistingcharacters">Blacklisting characters</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#detectinmultiplelanguages">Detect in multiple languages</a></li><li style="margin-left:2em"><a href="https://nanonets.com/blog/ocr-with-tesseract/#usingtessdata_fast">Using tessdata_fast</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#trainingtesseractoncustomdata">Training Tesseract on custom data</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#limitationsoftesseract">Limitations of Tesseract</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#ocr-with-nanonets">OCR with Nanonets</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#nanonets-and-humans-in-the-loop">Nanonets and Humans in the Loop</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#conclusion">Conclusion</a></li><li><a href="https://nanonets.com/blog/ocr-with-tesseract/#furtherreading">Further Reading</a></li></ul></nav><h2 id="introduction">Introduction</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>OCR = Optical Character Recognition. In other words, OCR systems transform a two-dimensional image of text, that could contain machine printed or handwritten text from its image representation into machine-readable text. OCR as a process generally consists of several sub-processes to perform as accurately as possible. The subprocesses are:</p>
+<ul>
+<li>Preprocessing of the Image</li>
+<li>Text Localization</li>
+<li>Character Segmentation</li>
+<li>Character Recognition</li>
+<li>Post Processing</li>
+</ul>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>The sub-processes in the list above of course can differ, but these are roughly steps needed to approach automatic character recognition. In OCR software, it’s main aim to identify and capture all the unique words using different languages from written text characters.</p>
+<p>For almost two decades, optical character recognition systems have been widely used to provide automated text entry into computerized systems. Yet in all this time, conventional OCR systems have never overcome their inability to read more than a handful of type fonts and page formats. Proportionally spaced type (which includes virtually all typeset copy), laser printer fonts, and even many non-proportional typewriter fonts, have remained beyond the reach of these systems. And as a result, conventional OCR has never achieved more than a marginal impact on the total number of documents needing conversion into digital form.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/OCR.jpg" class="kg-image lightense-target"><figcaption>Optical Character Recognition process (Courtesy)</figcaption></figure><!--kg-card-begin: markdown--><p>Next-generation OCR engines deal with these problems mentioned above really good by utilizing the latest research in the area of deep learning. By leveraging the combination of deep models and huge datasets publicly available, models achieve state-of-the-art accuracies on given tasks. Nowadays it is also possible to <a href="https://github.com/Belval/TextRecognitionDataGenerator" target="_blank" title="Opens in a new window">generate synthetic data</a> with different fonts using generative adversarial networks and few other generative approaches.</p>
+<p>Optical Character Recognition remains a <a href="https://nanonets.com/blog/ocr-apis-to-extract-text-from-images/">challenging problem</a> when text occurs in unconstrained environments, like <a href="https://nanonets.com/blog/deep-learning-ocr/">natural scenes</a>, due to geometrical distortions, complex backgrounds, and diverse fonts. The technology still holds an immense potential due to the various use-cases of deep learning based OCR like</p>
+<ul>
+<li><a href="https://nanonets.com/blog/attention-ocr-for-text-recogntion/">building license plate readers</a></li>
+<li><a href="https://nanonets.com/blog/invoice-ocr/">digitizing invoices</a></li>
+<li><a href="https://nanonets.com/blog/menu-digitization-ocr-deep-learning/">digitizing menus</a></li>
+<li><a href="https://nanonets.com/blog/id-card-digitization-deep-learning/">digitizing ID cards</a></li>
+</ul>
+<p>In this blog post, we will try to explain the technology behind the most used Tesseract Engine, which was upgraded with the latest knowledge researched in optical character recognition. This article will also serve as a how-to guide/ tutorial on how to implement OCR in python using the Tesseract engine. We will be walking through the following modules:</p>
+<ul>
+<li>Tesseract OCR Features</li>
+<li>Preprocessing for OCR using OpenCV</li>
+<li>Running Tesseract with CLI and Python</li>
+<li>Limitations of Tesseract engine</li>
+</ul>
+<!--kg-card-end: markdown--><hr><p><em><strong>Have an OCR problem in mind? Want to reduce your organisation's data entry costs? Head over to <a href="https://nanonets.com/">Nanonets</a> and build OCR models for free!</strong></em></p><!--kg-card-begin: html--><section class="contact-box" style="background-color: &#39;white&#39;;">
+        <div style="padding: 20px 0; text-align: center">
+          <a href="https://nanonets.com/ocr-api/" class="anchor2" style="margin: 8px;">
+              <button class="btn2" style="width: 300px; margin: 0; background: #546FFF; border: 1px solid #000; color: #fff; cursor: pointer">Get Started</button>
+            </a>
+        </div>
+    </section><!--kg-card-end: html--><hr><!--kg-card-begin: markdown--><h2 id="opensourceocrtools">Open Source OCR Tools</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>There are a lot of <a href="https://en.wikipedia.org/wiki/Comparison_of_optical_character_recognition_software" target="_blank" title="Opens in a new window">optical character recognition</a> software available. I did not find any quality comparison between them, but I will write about some of them that seem to be the most developer-friendly.</p>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p><a href="https://github.com/tesseract-ocr/tesseract" target="_blank" title="Opens in a new window">Tesseract</a> - an open-source OCR engine that has gained popularity among OCR developers. Even though it can be painful to implement and modify sometimes, there weren’t too many free and powerful OCR alternatives on the market for the longest time. Tesseract began as a Ph.D. research project in HP Labs, Bristol. It gained popularity and was developed by HP between 1984 and 1994. In 2005 HP released Tesseract as an open-source software.  <strong>Since 2006 it is developed by Google.</strong></p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-16-at-19.03.43.png" class="kg-image lightense-target"><figcaption>google trends comparison for different open source OCR tools</figcaption></figure><hr><!--kg-card-begin: markdown--><p><a href="https://github.com/tmbdev/ocropy" target="_blank" title="Opens in a new window">OCRopus</a> - OCRopus is an open-source OCR system allowing easy evaluation and reuse of the OCR components by both researchers and companies. <strong>A collection of document analysis programs, not a turn-key OCR system.</strong> To apply it to your documents, you may need to do some image preprocessing, and possibly also train new models. In addition to the recognition scripts themselves, there are several scripts for ground truth editing and correction, measuring error rates, determining confusion matrices that are easy to use and edit.</p>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><p><a href="https://github.com/tberg12/ocular" target="_blank" title="Opens in a new window">Ocular</a> - Ocular works best on documents printed using a hand press, including those written in multiple languages. It operates using the command line. <strong>It is a state-of-the-art historical OCR system. Its primary features are:</strong></p>
+<ul>
+<li>Unsupervised learning of unknown fonts: requires only document images and a corpus of text.</li>
+<li>Ability to handle noisy documents: inconsistent inking, spacing, vertical alignment</li>
+<li>Support for multilingual documents, including those that have considerable word-level code-switching.</li>
+<li>Unsupervised learning of orthographic variation patterns including archaic spellings and printer shorthand.</li>
+<li>Simultaneous, joint transcription into both diplomatic (literal) and normalized forms.</li>
+</ul>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><p><a href="https://github.com/garnele007/SwiftOCR" target="_blank" title="Opens in a new window">SwiftOCR</a> - I will also mention the OCR engine written in Swift since there is huge development being made into advancing the use of the Swift as the development programming language used for deep learning. Check out <a href="https://towardsdatascience.com/why-swift-may-be-the-next-big-thing-in-deep-learning-f3f6a638ca72" target="_blank" title="Opens in a new window">blog</a> to find out more why. SwiftOCR is a fast and simple OCR library that uses neural networks for image recognition. <strong>SwiftOCR claims that their engine outperforms well known Tessaract library.</strong></p>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>In this blog post,  we will put <strong>focus on Tesseract OCR</strong> and find out more about how it works and how it is used.</p>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><h2 id="tesseractocr">Tesseract OCR</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>Tesseract is an open source text recognition (OCR) Engine, available under the Apache 2.0 license. It can be used directly, or (for programmers) using an API to extract printed text from images. It supports a wide variety of languages. Tesseract doesn't have a built-in GUI, but there are several available from the <a href="https://github.com/tesseract-ocr/tesseract/wiki/User-Projects-%E2%80%93-3rdParty" target="_blank" title="Opens in a new window">3rdParty page</a>. Tesseract is compatible with many programming languages and frameworks through wrappers that can be found <a href="https://github.com/tesseract-ocr/tesseract/wiki/AddOns" target="_blank" title="Opens in a new window">here</a>. It can be used with the existing layout analysis to recognize text within a large document, or it can be used in conjunction with an external text detector to recognize text from an image of a single text line.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/ocr_flow.png" class="kg-image lightense-target"><figcaption>OCR Process Flow to build API with Tesseract from a <a href="https://medium.com/@balaajip/optical-character-recognition-99aba2dad314" target="_blank" title="Opens in a new window">blog post</a></figcaption></figure><!--kg-card-begin: markdown--><p>Tesseract 4.00 includes a new neural network subsystem configured as a text line recognizer. It has its origins in <a href="https://github.com/tmbdev/ocropy" target="_blank" title="Opens in a new window">OCRopus' Python-based LSTM</a> implementation but has been redesigned for Tesseract in C++. The neural network system in Tesseract pre-dates TensorFlow but is compatible with it, as there is a network description language called Variable Graph Specification Language (VGSL), that is also available for TensorFlow.</p>
+<p>To recognize an image containing a single character, we typically use a Convolutional Neural Network (CNN). Text of arbitrary length is a sequence of characters, and such problems are solved using RNNs and LSTM is a popular form of RNN. Read this post to learn more about <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" title="Opens in a new window">LSTM</a>.</p>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><h3 id="technologyhowitworks">Technology - How it works</h3>
+<p>LSTMs are great at learning sequences but slow down a lot when the number of states is too large. There are empirical results that suggest it is better to ask an LSTM to learn a long sequence than a short sequence of many classes. Tesseract developed from OCRopus model in Python which was a fork of a LSMT in C++, called CLSTM. CLSTM is an implementation of the LSTM recurrent neural network model in C++, using the Eigen library for numerical computations.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-19.58.23.png" class="kg-image lightense-target"><figcaption>Tesseract 3 OCR process from <a href="https://www.researchgate.net/publication/326016983_VOTING-BASED_OCR_SYSTEM" target="_blank" title="Opens in a new window">paper</a></figcaption></figure><!--kg-card-begin: markdown--><p>Legacy Tesseract 3.x was dependant on the multi-stage process where we can differentiate steps:</p>
+<ul>
+<li>Word finding</li>
+<li>Line finding</li>
+<li>Character classification</li>
+</ul>
+<p>Word finding was done by organizing text lines into blobs, and the lines and regions are analyzed for fixed pitch or proportional text. Text lines are broken into words differently according to the kind of character spacing. Recognition then proceeds as a two-pass process. In the first pass, an attempt is made to recognize each word in turn. Each word that is satisfactory is passed to an adaptive classifier as training data. The adaptive classifier then gets a chance to more accurately recognize text lower down the page.</p>
+<p>Modernization of the Tesseract tool was an effort on code cleaning and adding a new LSTM model. The input image is processed in boxes (rectangle) line by line feeding into the LSTM model and giving output. In the image below we can visualize how it works.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/Screenshot-2019-11-19-at-20.12.17.png" class="kg-image lightense-target"><figcaption>How Tesseract uses LSTM model <a href="https://github.com/tesseract-ocr/docs/blob/master/das_tutorial2016/6ModernizationEfforts.pdf" target="_blank" title="Opens in a new window">presentation</a></figcaption></figure><!--kg-card-begin: markdown--><p>After adding a new training tool and training the model with a lot of data and fonts, Tesseract achieves better performance. Still, not good enough to work on handwritten text and weird fonts. It is possible to fine-tune or retrain top layers for experimentation.</p>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><h3 id="installingtesseract">Installing Tesseract</h3>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>Installing tesseract on Windows is easy with the precompiled binaries found <a href="https://digi.bib.uni-mannheim.de/tesseract/" target="_blank" title="Opens in a new window">here</a>. Do not forget to edit “path” environment variable and add tesseract path. For Linux or Mac installation it is installed with <a href="https://github.com/tesseract-ocr/tesseract/wiki" target="_blank" title="Opens in a new window">few commands</a>.</p>
+<p>After the installation verify that everything is working by typing command in the terminal or cmd:</p>
+<p><code>$ tesseract --version</code></p>
+<p>And you will see the output similar to:</p>
+<pre><code>tesseract 4.0.0
+leptonica-1.76.0
+libjpeg 9c : libpng 1.6.34 : libtiff 4.0.9 : zlib 1.2.8
+Found AVX2
+Found AVX
+Found SSE
+</code></pre>
+<p>You can install the python wrapper for tesseract after this using pip.<br>
+<code>$ pip install pytesseract</code></p>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>Tesseract library is shipped with a handy command-line tool called tesseract. We can use this tool to perform OCR on images and the output is stored in a text file. If we want to integrate Tesseract in our C++ or Python code, we will use Tesseract’s API.</p>
+<hr>
+<h3 id="runningtesseractwithcli">Running Tesseract with CLI</h3>
+<p>Call the Tesseract engine on the image with <em>image_path</em> and convert image to text, written line by line in the command prompt by typing the following:</p>
+<p><code>$ tesseract image_path stdout</code></p>
+<p>To write the output text in a file:</p>
+<p><code>$ tesseract image_path text_result.txt</code></p>
+<p>To specify the language model name, write language shortcut after <em>-l</em> flag, by default it takes English language:</p>
+<p><code>$ tesseract image_path text_result.txt -l eng</code></p>
+<p>By default, Tesseract expects a page of text when it segments an image. If you're just seeking to OCR a small region, try a different segmentation mode, using the <em>--psm</em> argument. There are 14 modes available which can be found <a href="https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#page-segmentation-method" target="_blank" title="Opens in a new window">here</a>. By default, Tesseract fully automates the page segmentation but does not perform orientation and script detection. To specify the parameter, type the following:</p>
+<p><code>$ tesseract image_path text_result.txt -l eng --psm 6</code></p>
+<p>There is also one more important argument, OCR engine mode (oem). Tesseract 4 has two OCR engines — Legacy Tesseract engine and LSTM engine. There are four modes of operation chosen using the --oem option.<br>
+0&nbsp;&nbsp;&nbsp;&nbsp;Legacy engine only.<br>
+1&nbsp;&nbsp;&nbsp;&nbsp;Neural nets LSTM engine only.<br>
+2&nbsp;&nbsp;&nbsp;&nbsp;Legacy + LSTM engines.<br>
+3&nbsp;&nbsp;&nbsp;&nbsp;Default, based on what is available.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/11/ocr_img.png" class="kg-image lightense-target"><figcaption>Result of the Tesseract OCR engine</figcaption></figure><hr><!--kg-card-begin: markdown--><h2 id="ocrwithpytesseractandopencv">OCR with Pytesseract and OpenCV</h2>
+<p>Pytesseract is a wrapper for Tesseract-OCR Engine. It is also useful as a stand-alone invocation script to tesseract, as it can read all image types supported by the Pillow and Leptonica imaging libraries, including jpeg, png, gif, bmp, tiff, and others. More info about Python approach read <a href="https://github.com/madmaze/pytesseract" target="_blank" title="Opens in a new window">here</a>. The code for this tutorial can be found in this <a href="https://github.com/NanoNets/ocr-with-tesseract" target="_blank" title="Opens in a new window">repository</a>.</p>
+<!--kg-card-end: markdown--><pre class=" language-python"><code class=" language-python"><span class="token keyword">import</span> cv2 
+<span class="token keyword">import</span> pytesseract
+
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'image.jpg'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Adding custom options</span>
+custom_config <span class="token operator">=</span> r<span class="token string">'--oem 3 --psm 6'</span>
+pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span></code></pre><hr><!--kg-card-begin: markdown--><h3 id="preprocessingfortesseract">Preprocessing for Tesseract</h3>
+<p>To avoid all the ways your tesseract output accuracy can drop, you need to make sure the image is appropriately <a href="https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality#image-processing" target="_blank" title="Opens in a new window">pre-processed</a>.</p>
+<p>This includes rescaling, binarization, noise removal, deskewing, etc.</p>
+<p>To preprocess image for OCR, use any of the following python functions or follow the <a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_table_of_contents_imgproc/py_table_of_contents_imgproc.html" target="_blank" title="Opens in a new window">OpenCV documentation</a>.</p>
+<pre class=" language-python"><code class=" language-python"><span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'image.jpg'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># get grayscale image</span>
+<span class="token keyword">def</span> <span class="token function">get_grayscale</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>image<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>COLOR_BGR2GRAY<span class="token punctuation">)</span>
+
+<span class="token comment"># noise removal</span>
+<span class="token keyword">def</span> <span class="token function">remove_noise</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>medianBlur<span class="token punctuation">(</span>image<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span>
+ 
+<span class="token comment">#thresholding</span>
+<span class="token keyword">def</span> <span class="token function">thresholding</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>threshold<span class="token punctuation">(</span>image<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>THRESH_BINARY <span class="token operator">+</span> cv2<span class="token punctuation">.</span>THRESH_OTSU<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+<span class="token comment">#dilation</span>
+<span class="token keyword">def</span> <span class="token function">dilate</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    kernel <span class="token operator">=</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>np<span class="token punctuation">.</span>uint8<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>dilate<span class="token punctuation">(</span>image<span class="token punctuation">,</span> kernel<span class="token punctuation">,</span> iterations <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    
+<span class="token comment">#erosion</span>
+<span class="token keyword">def</span> <span class="token function">erode</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    kernel <span class="token operator">=</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>np<span class="token punctuation">.</span>uint8<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>erode<span class="token punctuation">(</span>image<span class="token punctuation">,</span> kernel<span class="token punctuation">,</span> iterations <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token comment">#opening - erosion followed by dilation</span>
+<span class="token keyword">def</span> <span class="token function">opening</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    kernel <span class="token operator">=</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>np<span class="token punctuation">.</span>uint8<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>morphologyEx<span class="token punctuation">(</span>image<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>MORPH_OPEN<span class="token punctuation">,</span> kernel<span class="token punctuation">)</span>
+
+<span class="token comment">#canny edge detection</span>
+<span class="token keyword">def</span> <span class="token function">canny</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>Canny<span class="token punctuation">(</span>image<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span>
+
+<span class="token comment">#skew correction</span>
+<span class="token keyword">def</span> <span class="token function">deskew</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    coords <span class="token operator">=</span> np<span class="token punctuation">.</span>column_stack<span class="token punctuation">(</span>np<span class="token punctuation">.</span>where<span class="token punctuation">(</span>image <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    angle <span class="token operator">=</span> cv2<span class="token punctuation">.</span>minAreaRect<span class="token punctuation">(</span>coords<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+     <span class="token keyword">if</span> angle <span class="token operator">&lt;</span> <span class="token operator">-</span><span class="token number">45</span><span class="token punctuation">:</span>
+        angle <span class="token operator">=</span> <span class="token operator">-</span><span class="token punctuation">(</span><span class="token number">90</span> <span class="token operator">+</span> angle<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        angle <span class="token operator">=</span> <span class="token operator">-</span>angle
+    <span class="token punctuation">(</span>h<span class="token punctuation">,</span> w<span class="token punctuation">)</span> <span class="token operator">=</span> image<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+    center <span class="token operator">=</span> <span class="token punctuation">(</span>w <span class="token operator">//</span> <span class="token number">2</span><span class="token punctuation">,</span> h <span class="token operator">//</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    M <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getRotationMatrix2D<span class="token punctuation">(</span>center<span class="token punctuation">,</span> angle<span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span>
+    rotated <span class="token operator">=</span> cv2<span class="token punctuation">.</span>warpAffine<span class="token punctuation">(</span>image<span class="token punctuation">,</span> M<span class="token punctuation">,</span> <span class="token punctuation">(</span>w<span class="token punctuation">,</span> h<span class="token punctuation">)</span><span class="token punctuation">,</span> flags<span class="token operator">=</span>cv2<span class="token punctuation">.</span>INTER_CUBIC<span class="token punctuation">,</span> borderMode<span class="token operator">=</span>cv2<span class="token punctuation">.</span>BORDER_REPLICATE<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> rotated
+
+<span class="token comment">#template matching</span>
+<span class="token keyword">def</span> <span class="token function">match_template</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> template<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> cv2<span class="token punctuation">.</span>matchTemplate<span class="token punctuation">(</span>image<span class="token punctuation">,</span> template<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>TM_CCOEFF_NORMED<span class="token punctuation">)</span> 
+</code></pre>
+<!--kg-card-end: markdown--><p>Let's work with an example to see things better. This is what our original image looks like -</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/12/image.jpg" class="kg-image lightense-target"><figcaption>The Aurebesh writing system</figcaption></figure><!--kg-card-begin: markdown--><p>After preprocessing with the following code</p>
+<pre class=" language-python"><code class=" language-python">image <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'aurebesh.jpg'</span><span class="token punctuation">)</span>
+
+gray <span class="token operator">=</span> get_grayscale<span class="token punctuation">(</span>image<span class="token punctuation">)</span>
+thresh <span class="token operator">=</span> thresholding<span class="token punctuation">(</span>gray<span class="token punctuation">)</span>
+opening <span class="token operator">=</span> opening<span class="token punctuation">(</span>gray<span class="token punctuation">)</span>
+canny <span class="token operator">=</span> canny<span class="token punctuation">(</span>gray<span class="token punctuation">)</span>
+</code></pre>
+<p>and plotting the resulting images, we get the following results.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://nanonets.com/blog/content/images/2019/12/processed.png" class="kg-image lightense-target"><figcaption>The image after preprocessing</figcaption></figure><!--kg-card-begin: markdown--><p>The output for the original image look like this -</p>
+<pre><code>GALACTIC BASIC
+(AUREBESH)
+
+RE HFVMEVEIiZwoyv Ze
+ABC DE F GH I JK LM
+N—0- PQ RST Uv WX
+2 | Ff 8 G&amp; Pf fF § 5 op 7
+ee
+5, jf FF Ty ee ee
+=
+334 477 OED
+</code></pre>
+<p>Here's what the output for different preprocessed images looks like -</p>
+<p>Canny edge image (not so good)-</p>
+<pre><code>CAE Cn Cae AS
+(AUREBESE)
+
+EA Na
+oe SS
+(Ne CI (ENE
+a, ee oe ea
+2
+a a A: rc
+|, |
+a
+Sear eo/e
+
+ecm emclomt Cia cuoomct mi im
+</code></pre>
+<p>Thresholded image -</p>
+<pre><code>GALACTIC BASIC
+(AVREBESH)
+RS 7FVMeEVEi1iFf o£
+A B C D EF GH IJ K LM
+AOoder7Nnvroroava
+N O P Q@R S$ TU VW XK Y¥ Z
+7 ee For 8 Ro Pf F Boao om #
+0 12 3 4 5 6 7 8 9 , . !
+&gt;» 1kr7 @ by FEN
+2? S$ ( Por Foy of ee
+ASGSANDIE
+CH AE EO KH NG OO SH TH
+</code></pre>
+<p>Opening image -</p>
+<pre><code>GALACTIC BASIC
+(AUREZEBELSH)
+KEE VTMEUOU EB iw oN es
+A BC D EF F @ H | J K LT Ww
+AOGdrcrT7WTt HYOAVa4
+WO P Q R BS T U VW WK y Z
+i J
+Oo 1 2 3 46 8 7 SC Ps,
+VY ir- -rp,ptUuY?
+a a a
+AGoOAnNnoOID
+CH AE BO KH ®@ OO SH TH
+</code></pre>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><h3 id="gettingboxesaroundtext">Getting boxes around text</h3>
+<p>Using Pytesseract, you can get the bounding box information for your OCR results using the following <a href="https://stackoverflow.com/questions/20831612/getting-the-bounding-box-of-the-recognized-words-using-python-tesseract" target="_blank" title="Opens in a new window">code</a>.</p>
+<p>The script below will give you bounding box information for each character detected by tesseract during OCR.</p>
+<pre class=" language-python"><code class=" language-python"><span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> pytesseract
+
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'image.jpg'</span><span class="token punctuation">)</span>
+
+h<span class="token punctuation">,</span> w<span class="token punctuation">,</span> c <span class="token operator">=</span> img<span class="token punctuation">.</span>shape
+boxes <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_boxes<span class="token punctuation">(</span>img<span class="token punctuation">)</span> 
+<span class="token keyword">for</span> b <span class="token keyword">in</span> boxes<span class="token punctuation">.</span>splitlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    b <span class="token operator">=</span> b<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span>
+    img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>rectangle<span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> h <span class="token operator">-</span> <span class="token builtin">int</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> h <span class="token operator">-</span> <span class="token builtin">int</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+cv2<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span><span class="token string">'img'</span><span class="token punctuation">,</span> img<span class="token punctuation">)</span>
+cv2<span class="token punctuation">.</span>waitKey<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre>
+<p>If you want boxes around words instead of characters, the function <code>image_to_data</code> will come in handy. You can use the <code>image_to_data</code> function with output type specified with pytesseract <code>Output</code>.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img src="https://nanonets.com/blog/content/images/2019/12/invoice-sample.jpg" class="kg-image lightense-target"></figure><hr><p><em><strong>Have an OCR problem in mind? Want to digitize invoices, PDFs or number plates? Head over to <a href="https://nanonets.com/">Nanonets</a> and build OCR models for free!</strong></em></p><!--kg-card-begin: html--><section class="contact-box" style="background-color: &#39;white&#39;;">
+        <div style="padding: 20px 0; text-align: center">
+          <a href="https://nanonets.com/ocr-api/" class="anchor2" style="margin: 8px;">
+              <button class="btn2" style="width: 300px; margin: 0; background: #546FFF; border: 1px solid #000; color: #fff; cursor: pointer">Get Started</button>
+            </a>
+        </div>
+    </section><!--kg-card-end: html--><hr><!--kg-card-begin: markdown--><p>We will use the sample invoice image above to test out our tesseract outputs.</p>
+<pre class=" language-python"><code class=" language-python"><span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> pytesseract
+<span class="token keyword">from</span> pytesseract <span class="token keyword">import</span> Output
+
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'invoice-sample.jpg'</span><span class="token punctuation">)</span>
+
+d <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_data<span class="token punctuation">(</span>img<span class="token punctuation">,</span> output_type<span class="token operator">=</span>Output<span class="token punctuation">.</span>DICT<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>This should give you the following output -<br>
+<code>dict_keys(['level', 'page_num', 'block_num', 'par_num', 'line_num', 'word_num', 'left', 'top', 'width', 'height', 'conf', 'text'])</code></p>
+<p>Using this dictionary, we can get each word detected, their bounding box information, the text in them and the confidence scores for each.</p>
+<p>You can plot the boxes by using the code below -</p>
+<pre class=" language-python"><code class=" language-python">n_boxes <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n_boxes<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">int</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'conf'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">60</span><span class="token punctuation">:</span>
+        <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> w<span class="token punctuation">,</span> h<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'width'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'height'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>rectangle<span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x <span class="token operator">+</span> w<span class="token punctuation">,</span> y <span class="token operator">+</span> h<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+cv2<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span><span class="token string">'img'</span><span class="token punctuation">,</span> img<span class="token punctuation">)</span>
+cv2<span class="token punctuation">.</span>waitKey<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Here's what this would look like for the image of a sample invoice.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img src="https://nanonets.com/blog/content/images/2019/12/invoice_boxes_conf60.jpg" class="kg-image lightense-target"></figure><p></p><hr><!--kg-card-begin: markdown--><h3 id="texttemplatematching">Text template matching</h3>
+<p>Take the example of trying to find where a date is in an image. Here our template will be a regular expression pattern that we will match with our OCR results to find the appropriate bounding boxes. We will use the <code>regex</code> module and the <code>image_to_data</code> function for this.</p>
+<pre class=" language-python"><code class=" language-python"><span class="token keyword">import</span> re
+<span class="token keyword">import</span> cv2
+<span class="token keyword">import</span> pytesseract
+<span class="token keyword">from</span> pytesseract <span class="token keyword">import</span> Output
+
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'invoice-sample.jpg'</span><span class="token punctuation">)</span>
+d <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_data<span class="token punctuation">(</span>img<span class="token punctuation">,</span> output_type<span class="token operator">=</span>Output<span class="token punctuation">.</span>DICT<span class="token punctuation">)</span>
+keys <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+date_pattern <span class="token operator">=</span> <span class="token string">'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)\d\d$'</span>
+
+n_boxes <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n_boxes<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">int</span><span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'conf'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">60</span><span class="token punctuation">:</span>
+    	<span class="token keyword">if</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span>date_pattern<span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+	        <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> w<span class="token punctuation">,</span> h<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'width'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> d<span class="token punctuation">[</span><span class="token string">'height'</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+	        img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>rectangle<span class="token punctuation">(</span>img<span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x <span class="token operator">+</span> w<span class="token punctuation">,</span> y <span class="token operator">+</span> h<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+cv2<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span><span class="token string">'img'</span><span class="token punctuation">,</span> img<span class="token punctuation">)</span>
+cv2<span class="token punctuation">.</span>waitKey<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre>
+<p>As expected, we get one box around the invoice date in the image.</p>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img src="https://nanonets.com/blog/content/images/2019/12/invoice-date-box.jpg" class="kg-image lightense-target"></figure><hr><!--kg-card-begin: markdown--><h3 id="pagesegmentationmodes">Page segmentation modes</h3>
+<p>There are several ways a page of text can be analysed. The tesseract api provides several page segmentation modes if you want to run OCR on only a small region or in different orientations, etc.</p>
+<p>Here's a list of the supported page segmentation modes by tesseract -</p>
+<p>0&nbsp;&nbsp;&nbsp;&nbsp;Orientation and script detection (OSD) only.<br>
+1&nbsp;&nbsp;&nbsp;&nbsp;Automatic page segmentation with OSD.<br>
+2&nbsp;&nbsp;&nbsp;&nbsp;Automatic page segmentation, but no OSD, or OCR.<br>
+3&nbsp;&nbsp;&nbsp;&nbsp;Fully automatic page segmentation, but no OSD. (Default)<br>
+4&nbsp;&nbsp;&nbsp;&nbsp;Assume a single column of text of variable sizes.<br>
+5&nbsp;&nbsp;&nbsp;&nbsp;Assume a single uniform block of vertically aligned text.<br>
+6&nbsp;&nbsp;&nbsp;&nbsp;Assume a single uniform block of text.<br>
+7&nbsp;&nbsp;&nbsp;&nbsp;Treat the image as a single text line.<br>
+8&nbsp;&nbsp;&nbsp;&nbsp;Treat the image as a single word.<br>
+9&nbsp;&nbsp;&nbsp;&nbsp;Treat the image as a single word in a circle.<br>
+10&nbsp;&nbsp;&nbsp;&nbsp;Treat the image as a single character.<br>
+11&nbsp;&nbsp;&nbsp;&nbsp;Sparse text. Find as much text as possible in no particular order.<br>
+12&nbsp;&nbsp;&nbsp;&nbsp;Sparse text with OSD.<br>
+13&nbsp;&nbsp;&nbsp;&nbsp;Raw line. Treat the image as a single text line, bypassing hacks that are Tesseract-specific.</p>
+<p>To change your page segmentation mode, change the <code>--psm</code> argument in your custom config string to any of the above mentioned mode codes.</p>
+<hr>
+<h3 id="detectorientationandscript">Detect orientation and script</h3>
+<p>You can detect the orientation of text in your image and also the script in which it is written. The following image -<br>
+<img src="https://nanonets.com/blog/content/images/2019/12/90degrees-1.png" style="width: 50%; height: 50%; margin-left:200px" class="lightense-target"><br>
+after running through the following code -</p>
+<pre class=" language-python"><code class=" language-python">osd <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_osd<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
+angle <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">'(?&lt;=Rotate: )\d+'</span><span class="token punctuation">,</span> osd<span class="token punctuation">)</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+script <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">'(?&lt;=Script: )\d+'</span><span class="token punctuation">,</span> osd<span class="token punctuation">)</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"angle: "</span><span class="token punctuation">,</span> angle<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"script: "</span><span class="token punctuation">,</span> script<span class="token punctuation">)</span>
+</code></pre>
+<p>will print the following output.</p>
+<pre><code>angle: 90
+script: Latin
+</code></pre>
+<hr>
+<h3 id="detectonlydigits">Detect only digits</h3>
+<p>Take this image for example -<br>
+<img src="https://nanonets.com/blog/content/images/2019/12/image2.jpg" style="width: 100%; height: 100%; margin-left:30px" class="lightense-target"><br>
+The text extracted from this image looks like this.</p>
+<pre><code>‘Customer name Hallium Energy services
+Project NEHINS-HIB-HSA
+lavoice no 43876324
+Dated 17%h Nov2018
+Pono 76496234
+</code></pre>
+<p>You can recognise only digits by changing the config to the following</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'--oem 3 --psm 6 outputbase digits'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>The output will look like this.</p>
+<pre><code>--
+
+. 43876324
+172018
+0 76496234
+</code></pre>
+<hr>
+<h3 id="whitelistingcharacters">Whitelisting characters</h3>
+<p>Say you only want to detect certain characters from the given image and ignore the rest. You can specify your whitelist of characters (here, we have used all the lowercase characters from a to z only) by using the following config.</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyz --psm 6'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Output -</p>
+<pre><code>customername
+roject
+tnvoleeno
+ated
+
+alliumenergyservices
+e
+thovo
+</code></pre>
+<hr>
+<h3 id="blacklistingcharacters">Blacklisting characters</h3>
+<p>If you are sure some characters or expressions definitely will not turn up in your text (the OCR will return wrong text in place of blacklisted characters otherwise), you can blacklist those characters by using the following config.</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-c tessedit_char_blacklist=0123456789 --psm 6'</span>
+pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span>
+</code></pre>
+<p>Output -</p>
+<pre><code>Customer name Hallium Energy services
+Project NEHINS-HIB-HSA
+lavoice no
+Dated %h Nov%
+Pono
+</code></pre>
+<hr>
+<h3 id="detectinmultiplelanguages">Detect in multiple languages</h3>
+<p>You can check the languages available by typing this in the terminal</p>
+<p><code>$ tesseract --list-langs</code></p>
+<p>To download tesseract for a specific language use</p>
+<p><code>$ sudo apt-get install tesseract-ocr-LANG</code></p>
+<p>where LANG is the three letter code for the language you need. You can find out the LANG values <a href="https://github.com/tesseract-ocr/tessdata" target="_blank" title="Opens in a new window">here</a>.</p>
+<p>You can download the <code>.traindata</code> file for the language you need from <a href="https://github.com/tesseract-ocr/tesseract/wiki/Data-Files" target="_blank" title="Opens in a new window">here</a> and place it in <code>$TESSDATA_PREFIX</code> directory (this should be the same as where the <code>tessdata</code> directory is installed) and it should be ready to use.</p>
+<p><strong>Note</strong> - Only languages that have a <code>.traineddata</code> file format are supported by tesseract.</p>
+<p>To specify the language you need your OCR output in, use the <code>-l LANG</code> argument in the config where LANG is the 3 letter code for what language you want to use.</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-l eng --psm 6'</span>
+pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span>
+</code></pre>
+<p>Take this image for example -<br>
+<img src="https://nanonets.com/blog/content/images/2019/12/greek-thai.png" style="width: 80%; height: 80%; margin-left:50px" class="lightense-target"><br>
+You can work with multiple languages by changing the LANG parameter as such -</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-l grc+tha+eng --psm 6'</span>
+pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span>
+</code></pre>
+<p>and you will get the following output -</p>
+<pre><code>Here’s some Greek:
+
+Οδιο διστα ιμπεδιτ φιμ ει, αδ φελ αβχορρεανθ ελωκυενθιαμ, εξ εσε εξερσι γυ-
+βεργρεν ηας. Ατ μει σολετ σριπτορεμ. ἴυς αλια λαβωρε θε. Σιθ κυωτ νυσκυαμ
+τρασυνδια αν, ὠμνιυμ ελιγενδι τιν πρι. Παρτεμ φερθερεμ συσιπιαντὺυρ εξ ιυς,ναμ
+%0790 แ ร เง ๑ ๕ 80 ๕ 6 ๑ อ 06 ส 0 เง น อ ๓ , πρω πρωπριαε σαεφολα ιδ. Ατ πρι δολορ νυ-
+σκυαμ.
+
+6 Thai
+
+Here’s some Thai: ν᾿
+
+ค อ ร ั ป ซั น จ ุ ้ ย โป ร ด ิ ว เซ อ ร ์ ส ถา ป ั ต ย ์ จ ๊ า บ แจ ็ ก พ ็ อ ต ม ้ า ห ิ น อ ่ อ น ซา ก ุ ร ะ ค ั น ถ ธ ุ ร ะ ฟิ ด ส ต า ร ์ ท ง ี ้ บ อ ย
+ค อ ต อ ื ่ ม แป ร ั ส ั ง โฆ ค ํ า ส า ป แฟ น ซี ศิ ล ป ว ั ฒ น ธร ร ม ไฟ ล ท ์ จ ิ ๊ ก โก ๋ ก ั บ ด ั ก เจ ล พ ล ็ อ ต ม า ม ่ า ซา ก ุ ร ะ ด ี ล เล อ
+ร ์ ซี น ด ั ม พ ์ แฮ ป ป ี ้ เอ ๊ ้ า ะ อ ุ ร ั ง ค ธา ต ุ ซิ ม ฟิ น ิ ก ซ์ เท ร ล เล ่ อ ร ์ อ ว อ ร ์ ด แค น ย อ น ส ม า พ ั น ธ์ ค ร ั ว ซอ ง ฮั ม อ า
+ข่ า เอ ็ ก ซ์ เพ ร ส
+</code></pre>
+<p><strong>Note</strong> - The language specified first to the <code>-l</code> parameter is the primary language.</p>
+<p>Unfortunately tesseract does not have a feature to detect language of the text in an image automatically. An alternative solution is provided by another python module called <code>langdetect</code> which can be installed via pip.</p>
+<p><code>$ pip install langdetect</code></p>
+<p>This module again, does not detect the language of text using an image but needs string input to detect the language from. The best way to do this is by first using tesseract to get OCR text in whatever languages you might feel are in there, using <code>langdetect</code> to find what languages are included in the OCR text and then run OCR again with the languages found.</p>
+<p>Say we have a text we thought was in english and portugese.</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-l eng+por --psm 6'</span>
+txt <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span>
+
+<span class="token keyword">from</span> langdetect <span class="token keyword">import</span> detect_langs
+detect_langs<span class="token punctuation">(</span>txt<span class="token punctuation">)</span>
+</code></pre>
+<p>This should output a list of languages in the text and their probabilities.</p>
+<pre class=" language-python"><code class=" language-python"><span class="token punctuation">[</span>en<span class="token punctuation">:</span><span class="token number">0.714282468983554</span><span class="token punctuation">,</span> es<span class="token punctuation">:</span><span class="token number">0.2857145605644145</span><span class="token punctuation">]</span>
+</code></pre>
+<p>The language codes used by <code>langdetect</code> follow ISO 639-1 codes. To compare, please check <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank" title="Opens in a new window">this</a> and <a href="https://github.com/tesseract-ocr/tesseract/wiki/Data-Files" target="_blank" title="Opens in a new window">this</a>. We find that the language used in the text are english and spanish instead.</p>
+<p>We get the text again by changing the config to</p>
+<pre class=" language-python"><code class=" language-python">custom_config <span class="token operator">=</span> r<span class="token string">'-l eng+spa --psm 6'</span>
+txt <span class="token operator">=</span> pytesseract<span class="token punctuation">.</span>image_to_string<span class="token punctuation">(</span>img<span class="token punctuation">,</span> config<span class="token operator">=</span>custom_config<span class="token punctuation">)</span>
+</code></pre>
+<p><strong>Note</strong> - Tesseract performs badly when, in an image with multiple languages, the languages specified in the config are wrong or aren't mentioned at all. This can mislead the langdetect module quite a bit as well.</p>
+<hr>
+<h3 id="usingtessdata_fast">Using tessdata_fast</h3>
+<p>If speed is a major concern for you, you can replace your tessdata language models with tessdata_fast models which are 8-bit integer versions of the tessdata models.</p>
+<p>According to the tessdata_fast <a href="https://github.com/tesseract-ocr/tessdata_fast" target="_blank" title="Opens in a new window">github</a> -</p>
+<p><em>This repository contains fast integer versions of trained models for the <a href="https://github.com/tesseract-ocr/tesseract" target="_blank" title="Opens in a new window">Tesseract Open Source OCR Engine</a>.</em></p>
+<p><em>These models only work with the LSTM OCR engine of Tesseract 4.</em></p>
+<ul>
+<li><em>These are a speed/accuracy compromise as to what offered the best "value for money" in speed vs accuracy.</em></li>
+<li><em>For some languages, this is still best, but for most not.</em></li>
+<li><em>The "best value for money" network configuration was then integerized for further speed.</em></li>
+<li><em>Most users will want to use these traineddata files to do OCR and these will be shipped as part of Linux distributions eg. Ubuntu 18.04.</em></li>
+<li><em>Fine tuning/incremental training will <strong>NOT</strong> be possible from these <code>fast</code> models, as they are 8-bit integer.</em></li>
+<li><em>When using the models in this repository, only the new LSTM-based OCR engine is supported. The legacy <code>tesseract</code> engine is not supported with these files, so Tesseract's oem modes '0' and '2' won't work with them.</em></li>
+</ul>
+<p>To use <code>tessdata_fast</code> models instead of <code>tessdata</code>, all you need to do is download your <code>tessdata_fast</code> language data file from <a href="https://github.com/tesseract-ocr/tesseract/wiki/Data-Files" target="_blank" title="Opens in a new window">here</a> and place it inside your <code>$TESSDATA_PREFIX</code> directory.</p>
+<!--kg-card-end: markdown--><hr><p><em><strong>Need to digitize documents, receipts or invoices but too lazy to code? Head over to <a href="https://nanonets.com/">Nanonets</a> and build OCR models for free!</strong></em></p><!--kg-card-begin: html--><section class="contact-box" style="background-color: &#39;white&#39;;">
+        <div style="padding: 20px 0; text-align: center">
+          <a href="https://nanonets.com/ocr-api/" class="anchor2" style="margin: 8px;">
+              <button class="btn2" style="width: 300px; margin: 0; background: #546FFF; border: 1px solid #000; color: #fff; cursor: pointer">Get Started</button>
+            </a>
+        </div>
+    </section><!--kg-card-end: html--><hr><!--kg-card-begin: markdown--><h2 id="trainingtesseractoncustomdata">Training Tesseract on custom data</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>Tesseract 4.00 includes a new neural network-based recognition engine that delivers significantly higher accuracy on document images. Neural networks require significantly more training data and train a lot slower than base Tesseract. <strong>For Latin-based languages, the existing model data provided has been trained on about 400000 text lines spanning about 4500 fonts.</strong></p>
+<p>In order to successfully run the Tesseract 4.0 LSTM training tutorial, you need to have a working installation of Tesseract 4 and Tesseract 4 Training Tools and also have the training scripts and required trained data files in certain directories. Visit <a href="https://github.com/tesseract-ocr/tesseract/wiki/TrainingTesseract-4.00" target="_blank" title="Opens in a new window">github repo</a> for files and tools.</p>
+<p>Tesseract 4.00 takes a few days to a couple of weeks for training from scratch. Even with all these new training data, therefore here are few options for training:</p>
+<ul>
+<li><strong>Fine-tune</strong> - Starting with an existing trained language, train on your specific additional data. For example training on a handwritten dataset and some additional fonts.</li>
+<li><strong>Cut off the top layer</strong> - from the network and retrain a new top layer using the new data. If fine-tuning doesn't work, this is most likely the next best option. The analogy why is this useful, take for an instance models trained on ImageNet dataset. The goal is to build a cat or dog classifier, lower layers in the model are good at low-level abstraction as corners, horizontal and vertical lines, but higher layers in model are combining those features and detecting cat or dog ears, eyes, nose and so on. By retraining only top layers you are using knowledge from lower layers and combining with your new different dataset.</li>
+<li><strong>Retrain from scratch</strong> - This is a very slow approach unless you have a very representative and sufficiently large training set for your problem. The best resource for training from scratch is following this <a href="https://github.com/Shreeshrii/tess4training" target="_blank" title="Opens in a new window">github repo</a>.</li>
+</ul>
+<p>A guide on how to train on your custom data and create <code>.traineddata</code> files can be found <a href="https://www.endpoint.com/blog/2018/07/09/training-tesseract-models-from-scratch" target="_blank" title="Opens in a new window">here</a>, <a href="https://pretius.com/how-to-prepare-training-files-for-tesseract-ocr-and-improve-characters-recognition/" target="_blank" title="Opens in a new window">here</a> and <a href="https://medium.com/@vovaprivalov/tesseract-ocr-tips-custom-dictionary-to-improve-ocr-d2b9cd17850b" target="_blank" title="Opens in a new window">here</a>.</p>
+<p>We will not be covering the code for training using Tesseract in this blog post.</p>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><h2 id="limitationsoftesseract">Limitations of Tesseract</h2>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><img src="https://lh4.googleusercontent.com/-UDeVGQQU4NC3VEIg9JcFgw8yeWiS_l51fCyFO5vH67ApmR4yoSL-TcRWIlF3a7aEUtGIFFs0sswbN-i4yMPeQnaOrQOkIFS2TJxIgpc_0YdnWBWV6d1A-hZ8xub2dLYDQV8k8As" class="kg-image lightense-target"></figure><!--kg-card-begin: markdown--><p>Tesseract works best when there is a clean segmentation of the foreground text from the background. In practice, it can be extremely challenging to guarantee these types of setup. There are a variety of reasons you might not get good quality output from Tesseract like if the image has noise on the background. The better the image quality (size, contrast, lightning) the better the recognition result. It requires a bit of preprocessing to improve the OCR results, images need to be scaled appropriately, have as much image contrast as possible, and the text must be horizontally aligned. Tesseract OCR is quite powerful but does have the following limitations.</p>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p><strong>Tesseract limitations summed in the list.</strong></p>
+<ul>
+<li>The OCR is not as accurate as some commercial solutions available to us.</li>
+<li>Doesn't do well with images affected by artifacts including partial occlusion, distorted perspective, and complex background.</li>
+<li>It is not capable of recognizing handwriting.</li>
+<li>It may find gibberish and report this as OCR output.</li>
+<li>If a document contains languages outside of those given in the -l LANG arguments, results may be poor.</li>
+<li>It is not always good at analyzing the natural reading order of documents. For example, it may fail to recognize that a document contains two columns, and may try to join text across columns.</li>
+<li>Poor quality scans may produce poor quality OCR.</li>
+<li>It does not expose information about what font family text belongs to.</li>
+</ul>
+<!--kg-card-end: markdown--><hr><blockquote>There's of course a better, much simpler and more intuitive way to perform OCR tasks.</blockquote><hr><h2 id="ocr-with-nanonets">OCR with Nanonets</h2><figure class="kg-card kg-image-card"><img src="https://nanonets.com/blog/content/images/2019/12/OCR_illustration-2.gif" class="kg-image lightense-target"></figure><p>The <a href="https://nanonets.com/ocr-api/">Nanonets OCR API</a> allows you to build OCR models with ease. You do not have to worry about pre-processing your images or worry about matching templates or build rule based engines to increase the accuracy of your OCR model. </p><p>You can upload your data, annotate it, set the model to train and wait for getting predictions through a browser based UI without writing a single line of code, worrying about GPUs or finding the right architectures for your deep learning models. You can also acquire the JSON responses of each prediction to integrate it with your own systems and build machine learning powered apps built on state of the art algorithms and a strong infrastructure.</p><p><strong>Using the GUI: <a href="https://app.nanonets.com/">https://app.nanonets.com/</a></strong></p><p>You can also use the Nanonets-OCR API by following the steps below:‌</p><!--kg-card-begin: markdown--><p><strong>Step 1: Clone the Repo, Install dependencies</strong></p>
+<pre class=" language-bash"><code class=" language-bash"><span class="token function">git</span> clone https://github.com/NanoNets/nanonets-ocr-sample-python.git
+<span class="token function">cd</span> nanonets-ocr-sample-python
+<span class="token function">sudo</span> pip <span class="token function">install</span> requests tqdm
+</code></pre>
+<p><strong>Step 2: Get your free API Key</strong><br>
+Get your free API Key from <a href="http://app.nanonets.com/#/keys">http://app.nanonets.com/#/keys</a></p>
+<div align="center">
+    <img src="https://nanonets.com/blog/content/images/2019/10/Screen-Shot-2019-10-02-at-15.24.13-copy.png" alt="number-plate-detection-gif" width="700" class="lightense-target">
+</div>
+<p><strong>Step 3: Set the API key as an Environment Variable</strong></p>
+<pre class=" language-bash"><code class=" language-bash"><span class="token function">export</span> NANONETS_API_KEY<span class="token operator">=</span>YOUR_API_KEY_GOES_HERE
+</code></pre>
+<p><strong>Step 4: Create a New Model</strong></p>
+<pre class=" language-bash"><code class=" language-bash">python ./code/create-model.py
+</code></pre>
+<p><strong>Note:</strong> This generates a MODEL_ID that you need for the next step</p>
+<p><strong>Step 5: Add Model Id as Environment Variable</strong></p>
+<pre class=" language-bash"><code class=" language-bash"><span class="token function">export</span> NANONETS_MODEL_ID<span class="token operator">=</span>YOUR_MODEL_ID
+</code></pre>
+<p><strong>Note:</strong> you will get YOUR_MODEL_ID from the previous step</p>
+<p><strong>Step 6: Upload the Training Data</strong><br>
+The training data is found in <code>images</code> (image files) and <code>annotations</code> (annotations for the image files)</p>
+<pre class=" language-bash"><code class=" language-bash">python ./code/upload-training.py
+</code></pre>
+<p><strong>Step 7: Train Model</strong><br>
+Once the Images have been uploaded, begin training the Model</p>
+<pre class=" language-bash"><code class=" language-bash">python ./code/train-model.py
+</code></pre>
+<p><strong>Step 8: Get Model State</strong><br>
+The model takes ~2 hours to train. You will get an email once the model is trained. In the meanwhile you check the state of the model</p>
+<pre class=" language-bash"><code class=" language-bash">python ./code/model-state.py
+</code></pre>
+<p><strong>Step 9: Make Prediction</strong><br>
+Once the model is trained. You can make predictions using the model</p>
+<pre class=" language-bash"><code class=" language-bash">python ./code/prediction.py ./images/151.jpg
+</code></pre>
+<!--kg-card-end: markdown--><hr><h2 id="nanonets-and-humans-in-the-loop">Nanonets and Humans in the Loop</h2><p>‌‌The 'Moderate' screen aids the correction and entry processes and reduce the manual reviewer's workload by almost 90% and reduce the costs by 50% for the organisation.</p><figure class="kg-card kg-image-card"><img src="https://nanonets.com/blog/content/images/2019/11/hil-gif-cropped-1.gif" class="kg-image lightense-target"></figure><p>Features include</p><ol><li>Track predictions which are correct</li><li>Track which ones are wrong</li><li>Make corrections to the inaccurate ones</li><li>Delete the ones that are wrong</li><li>Fill in the missing predictions</li><li>Filter images with date ranges</li><li>Get counts of moderated images against the ones not moderated</li></ol><p>All the fields are structured into an easy to use GUI which allows the user to take advantage of the OCR technology and assist in making it better as they go, without having to type any code or understand how the technology works.</p><hr><!--kg-card-begin: markdown--><h2 id="conclusion">Conclusion</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><p>Just as deep learning has impacted nearly every facet of computer vision, the same is true for character recognition and handwriting recognition. Deep learning based models have managed to obtain unprecedented text recognition accuracy, far beyond traditional feature extraction and machine learning approaches.</p>
+<p>Tesseract performs well when document images follow the next guidelines:</p>
+<ul>
+<li>Clean segmentation of the foreground text from background</li>
+<li>Horizontally aligned and scaled appropriately</li>
+<li>High-quality image without blurriness and noise</li>
+</ul>
+<p>The latest release of Tesseract 4.0 supports deep learning based OCR that is significantly more accurate. The OCR engine itself is built on a Long Short-Term Memory (LSTM) network, a kind of Recurrent Neural Network (RNN).</p>
+<p>Tesseract is perfect for scanning clean documents and comes with pretty high accuracy and font variability since its training was comprehensive. I would say that Tesseract is a go-to tool if your task is scanning of books, documents and printed text on a clean white background.</p>
+<!--kg-card-end: markdown--><hr><!--kg-card-begin: markdown--><h2 id="furtherreading">Further Reading</h2>
+<!--kg-card-end: markdown--><!--kg-card-begin: markdown--><ul>
+<li><a href="https://github.com/tesseract-ocr/tessdata_best" target="_blank" title="Opens in a new window">Best trained model for LSTM Tesseract 4.0</a></li>
+<li><a href="https://blogs.dropbox.com/tech/2017/04/creating-a-modern-ocr-pipeline-using-computer-vision-and-deep-learning/" target="_blank" title="Opens in a new window">Dropbox approach to OCR 4.2017</a></li>
+<li><a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/33418.pdf" target="_blank" title="Opens in a new window">Overview of Tesseract OCR Engine Legacy</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/tesseract-dev" target="_blank" title="Opens in a new window">Forum for Tesseract developers</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/tesseract-ocr" target="_blank" title="Opens in a new window">Forum for Tesseract users</a></li>
+<li><a href="https://jlcl.org/content/2-allissues/1-heft1-2018/jlcl_2018-1_4.pdf" target="_blank" title="Opens in a new window">Comparison of OCR Accuracy on Early Printed Books using the<br>
+Open Source Engines Calamari and OCRopus</a></li>
+<li><a href="https://arxiv.org/pdf/1906.01969.pdf" target="_blank" title="Opens in a new window">Efficient, Lexicon-Free OCR using Deep Learning</a></li>
+<li><a href="https://pdfs.semanticscholar.org/7328/4d844ae974aa7eaf79253b2b2d394a141966.pdf" target="_blank" title="Opens in a new window">Suitability of OCR Engines in Information Extraction Systems - A Comparative Evaluation</a></li>
+<li><a href="https://nanonets.com/blog/ocr-with-tesseract/deep-text-recognition-benchmark">DeepText Benchmark</a></li>
+<li><a href="https://github.com/kba/awesome-ocr" target="_blank" title="Opens in a new window">OCR Project List</a></li>
+<li><a href="https://github.com/tesseract-ocr/tesseract/wiki/4.0-with-LSTM" target="_blank" title="Opens in a new window">Tesseract Github Latest Release</a></li>
+<li><a href="https://github.com/clovaai/CRAFT-pytorch" target="_blank" title="Opens in a new window">CVPR 2019 - Character Region Awareness for Text Detection (CRAFT)</a></li>
+<li><a href="https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/" target="_blank" title="Opens in a new window">Credit Card OCR with OpenCV and Python</a></li>
+<li><a href="https://towardsdatascience.com/image-pre-processing-c1aec0be3edf" target="_blank" title="Opens in a new window">Image Preprocessing</a></li>
+<li><a href="https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_table_of_contents_imgproc/py_table_of_contents_imgproc.html#" target="_blank" title="Opens in a new window">Image Preprocessing in OpenCV</a></li>
+<li><a href="https://circuitdigest.com/microcontroller-projects/optical-character-recognition-ocr-using-tesseract-on-raspberry-pi" target="_blank" title="Opens in a new window">OCR using Tesseract on Raspberry Pi</a></li>
+</ul>
+<!--kg-card-end: markdown--><p></p><!--kg-card-begin: html--><script>    
+   var contentsTitle = "Table of Contents"; // Set your title here, to avoid making a heading for it later
+	var ToC = "<h2>"+contentsTitle+"</h2>";
+    ToC += "<nav role='navigation' class='table-of-contents'><ul>";
+    var first = false;
+ 
+    document.querySelectorAll('h2,h3').forEach(function(el,index) {
+        if (first === false) {
+        	first = true;
+            var newSpan = document.createElement("SPAN");
+            newSpan.id="dynamictocnative";
+            el.parentNode.insertBefore(newSpan, el);
+        }       
+		var title = el.textContent;
+		var link = "#" + el.id;
+        if (el.nodeName === "H2" && el.className != "post-card-title") {
+			ToC += "<li><a href='" + link + "'>" + title + "</a></li>";
+        } else if (el.nodeName === "H3" && el.className != "post-card-title"){
+        	ToC += "<li style='margin-left:2em'><a href='" + link + "'>" + title + "</a></li>";
+        }
+    });
+	
+	ToC += "</ul></nav>";
+    var tocDiv = document.getElementById('dynamictocnative');
+    tocDiv.outerHTML = ToC;
+</script><!--kg-card-end: html-->
+	</div>
+	<div class="post-meta">
+		<div class="post-share">
+	<a class="twitter" href="https://twitter.com/intent/tweet?text=A%20comprehensive%20guide%20to%20OCR%20with%20Tesseract%2C%20OpenCV%20and%20Python&amp;url=https://nanonets.com/blog/ocr-with-tesseract/" onclick="window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"></path></svg></a>
+	<a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://nanonets.com/blog/ocr-with-tesseract/" onclick="window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0"></path></svg></a>
+	<a class="google-plus" href="https://plus.google.com/share?url=https://nanonets.com/blog/ocr-with-tesseract/" onclick="window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.635 10.909v2.619h4.335c-.173 1.125-1.31 3.295-4.331 3.295-2.604 0-4.731-2.16-4.731-4.823 0-2.662 2.122-4.822 4.728-4.822 1.485 0 2.479.633 3.045 1.178l2.073-1.994c-1.33-1.245-3.056-1.995-5.115-1.995C3.412 4.365 0 7.785 0 12s3.414 7.635 7.635 7.635c4.41 0 7.332-3.098 7.332-7.461 0-.501-.054-.885-.12-1.265H7.635zm16.365 0h-2.183V8.726h-2.183v2.183h-2.182v2.181h2.184v2.184h2.189V13.09H24"></path></svg></a>
+</div>	</div>
+<div class="post-wrap commento-root commento-root-font" id="commento"><div id="commento-login-box-container"></div><div id="commento-error" class="commento-error-box" style="display: none;"></div><div id="commento-main-area" class="commento-main-area" style=""></div></div>
+<script src="https://cdn.commento.io/js/commento.js"></script>
+</div>
+</article>
+<aside class="section-prev-next">
+    <div class="prev-next-wrap">
+        <a href="https://nanonets.com/blog/damage-inspection-machine-learning/" class="prev-post post tag-damage-detection tag-automated-visual-inspection tag-deep-learning tag-insurance is-image">
+            <div class="prev-next-image" style="background-image: url(https://nanonets.com/blog/content/images/2019/12/car-insurance.gif)"></div>
+            <section class="prev-next-title">
+                <h5>Newer Post</h5>
+                <h3>Damage Inspection with AI - Automating Claims Processing for Insurance</h3>
+            </section>
+        </a>
+        <a href="https://nanonets.com/blog/menu-digitization-ocr-deep-learning/" class="next-post post tag-menu-digitization tag-ocr tag-digitization is-image">
+            <div class="prev-next-image" style="background-image: url(https://nanonets.com/blog/content/images/2019/12/Menu.gif)"></div>
+            <section class="prev-next-title">
+                <h5>Older Post</h5>
+                <h3>Menu Digitization with OCR and Deep Learning</h3>
+            </section>
+        </a>
+    </div>
+</aside>
+
+			</div>
+			<footer>
+	<div class="footer-wrap2 wrap" style="overflow: hidden;">
+		<div style="padding: 80px 0 40px 0; display: flex; flex-wrap: wrap; margin: 0 -24px;">
+			<ul style="padding: 12px 24px; width: 100%">
+				<img class="lazyload" src="https://nanonets.com/media/logo.png" alt="Nanonets Logo" style="max-height: 40px; margin-right: 40px;">
+			</ul>
+			<div class="footer-lists">
+				<ul class="footer-list">
+					<li class="list-header">Products</li>
+					<li><a href="https://app.nanonets.com/#/od/steps">Object Detection</a></li>
+					<li><a href="https://app.nanonets.com/#/ic/model">Image Classification</a></li>
+				</ul>
+				<ul class="footer-list">
+					<li class="list-header">Solutions</li>
+					<li><a href="https://nanonets.com/content-moderation-api/">NSFW</a></li>
+					<li><a href="https://nanonets.com/drone/">Drones</a></li>
+					<li><a href="https://nanonets.com/ecommerce/">E-commerce</a></li>
+					<li><a href="https://nanonets.com/inspection/">Inspection</a></li>
+					<li><a href="https://nanonets.com/multi-label-classification/">Multi Label Classification</a></li>
+					<li><a href="https://nanonets.com/ocr-api/">OCR API</a></li>
+					<li><a href="https://nanonets.com/hygiene-safety-compliance/">Hygiene &amp; Safety Compliance</a></li>
+					<li><a href="https://nanonets.com/solution/insurance">Insurance</a></li>
+				</ul>
+				<ul class="footer-list">
+					<li class="list-header">Case Studies</li>
+					<li><a href="https://nanonets.com/drone/counting-cars">Counting Cars</a></li>
+					<li><a href="https://nanonets.com/drone/solar-panels">Solar Panel faults</a></li>
+					<li><a href="https://nanonets.com/drone/wind-turbines">Windmill faults</a></li>
+					<li><a href="https://nanonets.com/case-studies/nsfw">NSFW Content Moderation</a></li>
+					<li><a href="https://nanonets.com/case-studies/furniture-search-recommendation">Furniture Research &amp; Recommendation</a></li>
+				</ul>
+				<ul class="footer-list">
+					<li class="list-header">Company</li>
+					<li><a href="https://nanonets.com/about">About Us</a></li>
+					<li><a href="https://blog.nanonets.com/">Blog</a></li>
+				</ul>
+				<ul class="footer-list" style="flex-grow: 1;">
+					<li class="list-header">Contact</li>
+					<li>156 2nd Street, San Francisco, CA 94105, USA</li>
+					<li><a href="tel:+1 650 382 8676">+1 650 382 8676</a></li>
+					<li><a href="mailto:info@nanonets.com">info@nanonets.com</a></li>
+					<li class="social-icons">
+						<a href="https://www.facebook.com/nanonets" target="_blank" rel="noopener noreferrer" title="Opens in a new window"><img class="lazyload s-icon" src="https://nanonets.com/assets/icons/facebook.svg" alt=""></a>
+						<a href="https://www.linkedin.com/company/nanonets/" target="_blank" rel="noopener noreferrer" title="Opens in a new window"><img class="lazyload s-icon" src="https://nanonets.com/assets/icons/linkedin.svg" alt=""></a>
+						<a href="https://twitter.com/Nanonets_" target="_blank" rel="noopener noreferrer" title="Opens in a new window"><img class="lazyload s-icon" src="https://nanonets.com/assets/icons/twitter.svg" alt=""></a>
+						<a href="https://medium.com/nanonets" target="_blank" rel="noopener noreferrer" title="Opens in a new window"><img class="lazyload s-icon" src="https://nanonets.com/assets/icons/medium.svg" alt=""></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div style="display: flex; flex-wrap: wrap; justify-content: space-between; padding: 60px 0;">
+			<span style="font-size: 10px;">Copyright © 2018 NanoNet Technologies Inc. All rights reserved.</span>
+			<span style="font-size: 10px;"><a href="https://nanonets.com/privacy.html">Terms of Use &amp; Privacy Policy</a></span>
+		</div>
+	</div>
+</footer>		</div>
+		<div class="section-search flex">
+	<div class="search-close"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.4285714,12 L24,20.5714286 L20.5714286,24 L12,15.4285714 L3.42857143,24 L3.55271368e-15,20.5714286 L8.57142857,12 L5.32907052e-15,3.42857143 L3.42857143,3.55271368e-15 L12,8.57142857 L20.5714286,3.55271368e-15 L24,3.42857143 L15.4285714,12 Z"></path></svg></div>
+	<div class="search-image" style="background-image: url(/blog/content/images/2018/11/droneheroimage-2.png)">
+	</div>
+	<div class="search-wrap">
+		<div class="search-content">
+			<form class="search-form flex" onsubmit="return false">
+				<input type="text" class="search-input" placeholder="Type your keywords..." autofocus="">
+			</form>
+			<div class="search-meta">
+				<span class="search-info-wrap">Please enter at least 3 characters</span>
+				<span class="search-counter-wrap hide">
+					<span class="counter-results">0</span>
+				Results for your search</span>
+			</div>
+			<div class="search-results">
+			</div>
+			<div class="search-suggestion flex">
+				<div class="search-suggestion-tags">
+	<h3>May we suggest a tag?</h3>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/deep-learning/">Deep Learning</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/ocr/">OCR</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/object-detection/">Object Detection</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/computer-vision/">computer vision</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/artificial-intelligence/">artificial intelligence</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/machine-learning/">machine learning</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/information-extraction/">information extraction</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/tutorial/">tutorial</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/ai/">AI</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/automated-visual-inspection/">Automated Visual Inspection</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/opencv/">OpenCV</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/automated-field-extraction/">Automated field extraction</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/tesseract/">tesseract</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/optical-character-recognition/">optical character recognition</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/invoice-digitization/">invoice digitization</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/automation/">automation</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/digitization/">digitization</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/getting-started/">Getting Started</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/real-time/">Real Time</a>
+	<a class="post-tag global-tag" href="https://nanonets.com/blog/tag/drone/">Drone</a>
+</div>
+							</div>
+		</div>
+		<div class="search-footer">
+			<a href="https://nanonets.com/blog">AI &amp; Machine Learning Blog.</a>
+			<span>Check out the latest blog articles, webinars, insights, and other resources on Machine Learning, Deep Learning on Nanonets blog..</span>
+		</div>
+	</div>
+</div>
+<script>
+		var searchPublished = 'Published';
+		var searchFeaturedIcon = '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.9712403,8.05987765 L16.2291373,8.05987765 L12.796794,0.459688839 C12.5516266,-0.153229613 11.4483734,-0.153229613 11.0806223,0.459688839 L7.64827899,8.05987765 L0.906176009,8.05987765 C0.538424938,8.05987765 0.170673866,8.30504503 0.0480901758,8.6727961 C-0.0744935148,9.04054717 0.0480901758,9.40829825 0.293257557,9.65346563 L5.31918887,14.3116459 L3.11268244,22.4021694 C2.99009875,22.7699205 3.11268244,23.1376716 3.48043351,23.382839 C3.72560089,23.6280063 4.21593565,23.6280063 4.46110303,23.5054227 L11.9387082,19.2149935 L19.4163133,23.5054227 C19.538897,23.6280063 19.6614807,23.6280063 19.906648,23.6280063 C20.1518154,23.6280063 20.2743991,23.5054227 20.5195665,23.382839 C20.7647339,23.1376716 20.8873176,22.7699205 20.8873176,22.4021694 L18.6808111,14.3116459 L23.7067424,9.65346563 C23.9519098,9.40829825 24.0744935,9.04054717 23.9519098,8.6727961 C23.7067424,8.30504503 23.3389914,8.05987765 22.9712403,8.05987765 Z"/></svg>';
+</script>
+<script src="https://nanonets.com/blog/assets/js/global-search.js?v=c42cdb4fc3"></script>		<script src="https://nanonets.com/blog/assets/js/global.js?v=c42cdb4fc3"></script>
+		<script src="https://nanonets.com/blog/assets/js/post.js?v=c42cdb4fc3"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js"></script>
+<script>
+$(document).ready(function() {
+   $("a[href^=http]").each(function(){
+      var excluded = [
+         // format for whitelist: 'google.com', 'apple.com', 'myawesomeblog.com'
+         // add your excluded domains here
+         ];
+      for(i=0; i<excluded.length; i++) {
+         if(this.href.indexOf(excluded[i]) != -1) {
+            return true;
+         }
+      }
+      if(this.href.indexOf(location.hostname) == -1) {
+           $(this).click(function() { return true; }); 
+           $(this).attr({
+               target: "_blank",
+               title: "Opens in a new window"
+           });
+           $(this).click();
+      }
+   })
+  $('.dropdown').mouseenter(function() {
+    if('ontouchstart' in window || navigator.maxTouchPoints) return
+    $(this).siblings().removeClass('open');
+    $(this).addClass('open');
+  });
+    $('.dropdown').mouseleave(function() {
+        if('ontouchstart' in window || navigator.maxTouchPoints) return
+        $(this).removeClass('open');
+    });
+    
+  $('.dropdown').click(function(e) {
+    $(this).siblings().removeClass('open');
+    $(this).toggleClass('open');
+    e.stopPropagation();
+  });
+  
+  $(window).click(function() {
+    $('.dropdown').removeClass('open');
+      console.log('cw')
+  });
+});
+</script>
+<!-- Ghost button styles -->
+<style>.btn-link.disabled,.btn-link[disabled],.btn.disabled,.btn[disabled],fieldset[disabled] .btn{opacity:.65;cursor:not-allowed;pointer-events:none;box-shadow:none}.btn{margin-bottom:0;padding:9px 15px;border:1px solid #dfe1e3;background:#fff;border-radius:4px;color:#808284;text-transform:uppercase;text-shadow:none;white-space:nowrap;letter-spacing:1px;font-size:1.1rem;line-height:1.428571429;transition:color .2s ease,background .2s ease,border-color .2s ease;font-family:'Open Sans',sans-serif;cursor:pointer;text-decoration:none}.btn:focus,.btn:hover{border-color:#5ba4e5;color:#308ddf}.btn-link:active,.btn-link:focus,.btn-link:hover{text-decoration:underline}.btn.active:focus,.btn:active:focus,.btn:focus{outline:dotted thin;outline:-webkit-focus-ring-color auto 0;outline-offset:-2px}.btn.active,.btn:active{outline:0;background-image:none;box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}.btn-hover-green:active,.btn-hover-green:focus,.btn-hover-green:hover{border-color:#9fbb58;color:#859f41}.btn-blue{border-color:#308ddf;background:#5ba4e5;color:#fff}.btn-blue:active,.btn-blue:focus,.btn-blue:hover{border-color:#1e73be;background:#308ddf;color:#fff}.btn-green{border-color:#859f41;background:#9fbb58;color:#fff}.btn-green:active,.btn-green:focus,.btn-green:hover{border-color:#667b32;background:#859f41;color:#fff}.btn-red{border-color:#d1341f;background:#e25440;color:#fff}.btn-red:active,.btn-red:focus,.btn-red:hover{border-color:#a42919;background:#d1341f;color:#fff}.btn-link,.btn-link:active,.btn-link:focus,.btn-link:hover{border-color:transparent;background:0 0;color:#5ba4e5}.btn-link.disabled,.btn-link[disabled]{color:#b2b2b2}.btn-minor:active,.btn-minor:focus,.btn-minor:hover{border-color:#c1c1c1;background:#fff;box-shadow:none;color:#808284}.btn-lg{padding:12px 18px;border-radius:4px;font-size:1.4rem;line-height:1.33}.btn-sm{padding:7px 10px;border-radius:2px;font-size:1rem;line-height:1.5}.btn-block{display:block}.btn-block+.btn-block{margin-top:5px}.btn.btn-outline{background-color:#fff}.btn.btn-blue.btn-outline{color:#5ba4e5}.btn.btn-red.btn-outline{color:#e25440}.btn.btn-green.btn-outline{color:#9fbb58}</style>
+<meta name="msvalidate.01" content="775385F4243325B194A6D20A36E0026E">
+	
+
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","297732744467236");fbq("set","agent","tmgoogletagmanager","297732744467236");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=297732744467236&amp;ev=PageView&amp;noscript=1"></noscript>
+<div style="display: none; visibility: hidden;">
+<script type="text/javascript">var sc_project=12038859,sc_invisible=1,sc_security="08635bef",sc_https=1;</script>
+<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async="null"></script>
+<noscript></noscript>
+</div><div style="display: none; visibility: hidden;">
+
+		<meta name="msvalidate.01" content="775385F4243325B194A6D20A36E0026E">
+		
+	
+
+</div>
+<script type="text/javascript" id="">!function(d,e){var b="00564d9a011a930fe0942cda137ce09582";if(d.obApi){var c=function(a){return"[object Array]"===Object.prototype.toString.call(a)?a:[a]};d.obApi.marketerId=c(d.obApi.marketerId).concat(c(b))}else{var a=d.obApi=function(){a.dispatch?a.dispatch.apply(a,arguments):a.queue.push(arguments)};a.version="1.1";a.loaded=!0;a.marketerId=b;a.queue=[];b=e.createElement("script");b.async=!0;b.src="//amplify.outbrain.com/cp/obtp.js";b.type="text/javascript";c=e.getElementsByTagName("script")[0];
+c.parentNode.insertBefore(b,c)}}(window,document);obApi("track","PAGE_VIEW");</script>
+<script type="text/javascript" id="">window.addEventListener("click",function(a){"Send Query"==a.target.innerHTML&&(a=document.getElementById("email").value,dataLayer.push({event:"emailTitle",emailAddress:a}))});</script>
+<script type="text/javascript" id="">window.addEventListener("click",function(a){"LOG IN"==a.target.innerHTML&&(a=document.querySelector('[type\x3d"email"]').value,dataLayer.push({event:"emailInputField",emailInput:a}))});</script><div class="lightense-backdrop"></div></body></html>
