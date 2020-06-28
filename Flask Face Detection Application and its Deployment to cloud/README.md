@@ -3,13 +3,9 @@
 ###### Application URL : http:// .pythonanywhere.com/
 
 
-
-
-
+##### Flask Face Detection Application and its Deployment to cloud :
 
 ##### Project files : flask_app.py, face_processing.py
-
-##### Flask Face Detection Application and its Deployment to cloud :
 
 ##### Dependencies : cv2, numpy, urllib3, Flask (python web framework)
 
