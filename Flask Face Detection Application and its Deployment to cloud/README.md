@@ -1,6 +1,6 @@
 ##### Flask Face Detection Application and its Deployment to cloud
 
-###### Application URL : http:// .pythonanywhere.com/
+###### Application URL : http://pythonanywhere.com/
 
 
 ##### Flask Face Detection Application and its Deployment to cloud :
