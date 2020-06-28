@@ -1,7 +1,8 @@
 ##### Flask Face Detection Application and its Deployment to cloud
 
-###### Application URL : http://vijayfacedetection.pythonanywhere.com/
+###### Application URL : http:// .pythonanywhere.com/
 
+##### Project files : flask_app.py, face_processing.py
 
 ##### Flask Face Detection Application and its Deployment to cloud :
 
