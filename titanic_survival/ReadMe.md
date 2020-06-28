@@ -15,3 +15,14 @@ Project File :
 "Titanic Survival Predictions.ipynb"
 
 advanced_report_titanic.ipynb
+
+
+### Dependencies :
+*numpy, pandas, sklearn,matplotlib,seaborn,pandas_profiling, joblib, pickle*
+
+### Agorithms Used :
+Logistic Regression
+KNeighborsClassifier
+LinearSVC
+Decision Tree
+RandomForestClassifier
