@@ -1,9 +1,9 @@
 ### Project Name :  Snapchat-based augmented reality
 
-Project files : snapchat_augmeted_reality_moustache.py , snapchat_augmeted_reality_glasses.py
+##### Project files : snapchat_augmeted_reality_moustache.py , snapchat_augmeted_reality_glasses.py
 
 
-Dependencies : cv2 (OpenCV)
+##### Dependencies : cv2 (OpenCV)
 
 short overview :
 I have used haarcascade classifier for face detection, nose detection and eyespair detection which detects faces, nose and eyes respectively in given image and return its vertices then
