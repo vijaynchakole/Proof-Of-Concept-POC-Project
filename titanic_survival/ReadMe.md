@@ -22,7 +22,11 @@ advanced_report_titanic.ipynb
 
 ### Agorithms Used :
 Logistic Regression
+
 KNeighborsClassifier
+
 LinearSVC
+
 Decision Tree
+
 RandomForestClassifier
