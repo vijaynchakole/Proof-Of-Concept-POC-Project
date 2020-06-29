@@ -223,4 +223,5 @@ https://github.com/vijaynchakole/dataScienceProject
 
 ### currently, I am working on Stocks Screener project which is web application
 ### once I complete this project then I deploy it to heroku 
-### Web Framework : FastAPI
+### Web Framework :
+### REST API : FastAPI
