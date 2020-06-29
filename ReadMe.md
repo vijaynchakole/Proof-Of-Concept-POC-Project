@@ -214,6 +214,10 @@ Topic : Automation script which accept file name. Extract all URL’s from that 
 Dependencies : urllib, re, webbrowser, os
 
 
+### small size projects are in another repository :
+
+https://github.com/vijaynchakole/dataScienceProject
+
 
 ## work in progress :
 
